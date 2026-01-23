@@ -20,18 +20,7 @@ const cores = {
     ciano: '#26C6DA'
 };
 
-// Carregar dados do localStorage
-function carregarDados() {
-    const dadosArmazenados = localStorage.getItem('surveyResponses');
-    if (dadosArmazenados) {
-        respostas = JSON.parse(dadosArmazenados);
-    } else {
-        respostas = gerarDadosDemonstracao();
-    }
-    return respostas;
-}
-
-// Gerar dados de demonstração se não houver respostas
+// Dados de demonstração permanentes (aparecem sempre)
 function gerarDadosDemonstracao() {
     return [
         {
@@ -39,37 +28,83 @@ function gerarDadosDemonstracao() {
             email: 'joao.silva@exemplo.com',
             interesse: 'Networking',
             formato_participacao: 'Presencial',
-            timestamp: new Date().toISOString()
+            timestamp: '2026-01-20T10:30:00.000Z',
+            isDemoData: true
         },
         {
             nome: 'Maria Santos',
             email: 'maria.santos@exemplo.com',
             interesse: 'Conhecimento',
             formato_participacao: 'Online',
-            timestamp: new Date().toISOString()
+            timestamp: '2026-01-20T11:15:00.000Z',
+            isDemoData: true
         },
         {
             nome: 'Pedro Costa',
             email: 'pedro.costa@exemplo.com',
             interesse: 'Oportunidades',
             formato_participacao: 'Hibrido',
-            timestamp: new Date().toISOString()
+            timestamp: '2026-01-20T14:20:00.000Z',
+            isDemoData: true
         },
         {
             nome: 'Ana Ferreira',
             email: 'ana.ferreira@exemplo.com',
             interesse: 'Inovacao',
             formato_participacao: 'Presencial',
-            timestamp: new Date().toISOString()
+            timestamp: '2026-01-21T09:45:00.000Z',
+            isDemoData: true
         },
         {
             nome: 'Carlos Mendes',
             email: 'carlos.mendes@exemplo.com',
             interesse: 'Networking',
             formato_participacao: 'Online',
-            timestamp: new Date().toISOString()
+            timestamp: '2026-01-21T16:30:00.000Z',
+            isDemoData: true
+        },
+        {
+            nome: 'Sofia Rodrigues',
+            email: 'sofia.rodrigues@exemplo.com',
+            interesse: 'Conhecimento',
+            formato_participacao: 'Presencial',
+            timestamp: '2026-01-22T08:00:00.000Z',
+            isDemoData: true
+        },
+        {
+            nome: 'Miguel Alves',
+            email: 'miguel.alves@exemplo.com',
+            interesse: 'Oportunidades',
+            formato_participacao: 'Hibrido',
+            timestamp: '2026-01-22T13:15:00.000Z',
+            isDemoData: true
+        },
+        {
+            nome: 'Teresa Martins',
+            email: 'teresa.martins@exemplo.com',
+            interesse: 'Inovacao',
+            formato_participacao: 'Online',
+            timestamp: '2026-01-22T15:45:00.000Z',
+            isDemoData: true
         }
     ];
+}
+
+// Carregar dados do localStorage e mesclar com dados de demonstração
+function carregarDados() {
+    const dadosDemo = gerarDadosDemonstracao();
+    const dadosArmazenados = localStorage.getItem('surveyResponses');
+
+    if (dadosArmazenados) {
+        const dadosReais = JSON.parse(dadosArmazenados);
+        // Mescla dados de demonstração com dados reais
+        respostas = [...dadosDemo, ...dadosReais];
+    } else {
+        // Se não houver dados reais, usa apenas os dados de demonstração
+        respostas = dadosDemo;
+    }
+
+    return respostas;
 }
 
 // Processar dados para estatísticas
@@ -95,8 +130,12 @@ function processarDados() {
 
 // Atualizar estatísticas resumidas
 function atualizarEstatisticas(stats) {
-    document.getElementById('totalRespostas').textContent = stats.total;
-    document.getElementById('taxaResposta').textContent = '100%';
+    // Conta quantas respostas são reais (não de demonstração)
+    const respostasReais = respostas.filter(r => !r.isDemoData).length;
+    const totalComDemo = stats.total;
+
+    // Mostra o total (com dados demo incluídos)
+    document.getElementById('totalRespostas').textContent = totalComDemo;
 
     const agora = new Date();
     const horaAtual = agora.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
