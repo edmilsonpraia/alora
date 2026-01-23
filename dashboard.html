@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Resultados do Inquérito</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <img src="logotipo.png" alt="Logo Allora" class="logo">
+                <h1>Dashboard de Resultados</h1>
+                <p class="subtitle">2º Fórum Nacional de Negócios Sustentáveis</p>
+            </div>
+            <nav class="dashboard-nav">
+                <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Voltar ao Inquérito</a>
+                <button id="refreshBtn" class="btn-refresh"><i class="fas fa-sync-alt"></i> Atualizar Dados</button>
+            </nav>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Estatísticas Resumidas -->
+            <section class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <h3 id="totalRespostas">0</h3>
+                        <p>Total de Respostas</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <h3 id="taxaResposta">0%</h3>
+                        <p>Taxa de Conclusão</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                    <div class="stat-info">
+                        <h3 id="ultimaAtualizacao">--</h3>
+                        <p>Última Atualização</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gráficos -->
+            <section class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2><i class="fas fa-bullseye"></i> Principal Interesse no Fórum</h2>
+                        <p class="chart-description">Distribuição dos interesses dos participantes</p>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="interesseChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2><i class="fas fa-laptop-house"></i> Formato de Participação</h2>
+                        <p class="chart-description">Preferências de formato: Presencial, Online ou Híbrido</p>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="formatoChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container full-width">
+                    <div class="chart-header">
+                        <h2><i class="fas fa-chart-bar"></i> Comparativo de Respostas</h2>
+                        <p class="chart-description">Visão geral de todas as categorias</p>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="comparativoChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container full-width">
+                    <div class="chart-header">
+                        <h2><i class="fas fa-envelope"></i> Participantes Registados</h2>
+                        <p class="chart-description">Lista de e-mails dos participantes</p>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="participantesTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th>Interesse</th>
+                                    <th>Formato</th>
+                                </tr>
+                            </thead>
+                            <tbody id="participantesBody">
+                                <tr>
+                                    <td colspan="5" class="empty-state">Nenhuma resposta registada ainda.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ações de Exportação -->
+            <section class="export-section">
+                <h2><i class="fas fa-download"></i> Exportar Dados</h2>
+                <div class="export-buttons">
+                    <button id="exportCsvBtn" class="btn-export"><i class="fas fa-file-csv"></i> Exportar CSV</button>
+                    <button id="exportPdfBtn" class="btn-export"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+                    <button id="exportExcelBtn" class="btn-export"><i class="fas fa-file-excel"></i> Exportar Excel</button>
+                </div>
+            </section>
+        </div>
+
+        <footer class="dashboard-footer">
+            <p>&copy; 2026 Allora - 2º Fórum Nacional de Negócios Sustentáveis</p>
+        </footer>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
