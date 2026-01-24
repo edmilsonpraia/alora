@@ -5,7 +5,7 @@ Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 Chart.defaults.color = '#666';
 
 // Variáveis globais
-let praticaSustChart, travaoChart, emissoesChart, contribuiChart, futuroChart;
+let praticaSustChart, travaoChart, emissoesChart, contribuiChart, futuroChart, crescimentoChart;
 let respostas = [];
 
 // Paleta de cores profissional
@@ -220,8 +220,8 @@ function criarGraficoPratica(stats) {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        padding: 15,
-                        font: { size: 12, weight: '600' },
+                        padding: 8,
+                        font: { size: 10, weight: '600' },
                         usePointStyle: true,
                         pointStyle: 'circle'
                     }
@@ -378,8 +378,8 @@ function criarGraficoEmissoes(stats) {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        padding: 15,
-                        font: { size: 12, weight: '600' },
+                        padding: 8,
+                        font: { size: 10, weight: '600' },
                         usePointStyle: true,
                         pointStyle: 'circle'
                     }
@@ -537,8 +537,8 @@ function criarGraficoFuturo(stats) {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        padding: 15,
-                        font: { size: 12, weight: '600' },
+                        padding: 8,
+                        font: { size: 10, weight: '600' },
                         usePointStyle: true,
                         pointStyle: 'circle'
                     }
@@ -562,6 +562,136 @@ function criarGraficoFuturo(stats) {
                 animateRotate: true,
                 animateScale: true,
                 duration: 1000
+            }
+        }
+    });
+}
+
+// Criar gráfico de crescimento/tendência (LINHA)
+function criarGraficoCrescimento() {
+    const canvas = document.getElementById('crescimentoChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    if (crescimentoChart) {
+        crescimentoChart.destroy();
+    }
+
+    // Definir horários fixos do evento: 08:00 até 16:00
+    const horasEvento = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+    const respostasPorHora = {};
+
+    // Inicializar todas as horas com 0
+    horasEvento.forEach(hora => {
+        respostasPorHora[hora] = 0;
+    });
+
+    // Contar respostas reais por horário
+    respostas.forEach(resposta => {
+        if (resposta.timestamp) {
+            const data = new Date(resposta.timestamp);
+            const hora = data.getHours();
+            const label = `${hora.toString().padStart(2, '0')}:00`;
+
+            // Só contar se estiver dentro do horário do evento
+            if (respostasPorHora.hasOwnProperty(label)) {
+                respostasPorHora[label]++;
+            }
+        }
+    });
+
+    const labels = horasEvento;
+    const data = horasEvento.map(hora => respostasPorHora[hora]);
+
+    crescimentoChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Número de Respostas',
+                data: data,
+                backgroundColor: 'rgba(38, 166, 154, 0.1)',
+                borderColor: cores.verde,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: cores.verde,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointHoverBackgroundColor: cores.verdeEscuro,
+                pointHoverBorderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        font: { size: 13, weight: '600' },
+                        color: '#333',
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        padding: 15
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return `Respostas: ${context.parsed.y}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        font: { size: 11, weight: '500' },
+                        color: '#666'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.06)',
+                        drawBorder: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Número de Pessoas',
+                        font: { size: 12, weight: '600' },
+                        color: '#333'
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: { size: 11, weight: '500' },
+                        color: '#666'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.04)',
+                        drawBorder: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        font: { size: 12, weight: '600' },
+                        color: '#333'
+                    }
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
             }
         }
     });
@@ -596,6 +726,7 @@ function atualizarDashboard() {
     const stats = processarDados();
 
     atualizarEstatisticas(stats);
+    criarGraficoCrescimento();
     criarGraficoPratica(stats);
     criarGraficoTravao(stats);
     criarGraficoEmissoes(stats);

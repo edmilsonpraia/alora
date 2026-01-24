@@ -55,7 +55,6 @@ body::before {
 .logo {
     max-width: 100px;
     margin-bottom: 15px;
-    filter: brightness(0) invert(1);
 }
 
 .event-header h1 {

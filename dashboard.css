@@ -41,7 +41,7 @@ body::before {
 .dashboard-header {
     background: linear-gradient(135deg, #00897B 0%, #26A69A 100%);
     color: #fff;
-    padding: 30px 40px;
+    padding: 15px 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
@@ -50,23 +50,22 @@ body::before {
 
 .header-content {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .logo {
-    max-width: 120px;
-    margin-bottom: 15px;
-    filter: brightness(0) invert(1);
+    max-width: 80px;
+    margin-bottom: 8px;
 }
 
 .dashboard-header h1 {
-    font-size: 2em;
-    margin-bottom: 5px;
+    font-size: 1.4em;
+    margin-bottom: 3px;
     font-weight: 700;
 }
 
 .dashboard-header .subtitle {
-    font-size: 1.1em;
+    font-size: 0.9em;
     opacity: 0.9;
     font-weight: 300;
 }
@@ -182,18 +181,23 @@ body::before {
     color: #666;
 }
 
+/* Seção de Crescimento */
+.growth-section {
+    margin-bottom: 30px;
+}
+
 /* Seção de Gráficos */
 .charts-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 }
 
 .chart-container {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 25px;
+    border-radius: 12px;
+    padding: 18px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     border: 1px solid rgba(38, 166, 154, 0.1);
@@ -210,18 +214,18 @@ body::before {
 }
 
 .chart-header {
-    margin-bottom: 20px;
-    padding-bottom: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
     border-bottom: 2px solid #e0e0e0;
 }
 
 .chart-header h2 {
-    font-size: 1.4em;
+    font-size: 1.1em;
     color: #00897B;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .chart-header h2 i {
@@ -229,7 +233,7 @@ body::before {
 }
 
 .chart-description {
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: #666;
 }
 
@@ -260,7 +264,7 @@ body::before {
 
 .chart-wrapper {
     position: relative;
-    height: 280px;
+    height: 160px;
 }
 
 /* Tabela de Participantes */
@@ -391,7 +395,7 @@ tbody td {
     }
 
     .chart-wrapper {
-        height: 300px;
+        height: 200px;
     }
 
     .stat-card {
