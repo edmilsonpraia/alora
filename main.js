@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function validateForm() {
         let isValid = true;
-        const requiredFields = ['nome', 'email']; // Campos obrigatórios atualizados
+        const requiredFields = ['nome']; // Apenas nome é obrigatório
 
         requiredFields.forEach(fieldId => {
             const input = document.getElementById(fieldId);
@@ -80,12 +80,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Validação específica para o email
-        const emailInput = document.getElementById('email');
-        if (emailInput.value.trim() && !isValidEmail(emailInput.value)) {
-            showError(emailInput, 'Por favor, insira um email válido.');
-            isValid = false;
-        }
+        // Validar que pelo menos uma resposta de cada questão foi selecionada
+        const radioGroups = ['pratica_sustentabilidade', 'travao_sustentabilidade', 'emissoes_angola', 'contribui_emissoes', 'futuro_empresas'];
+        radioGroups.forEach(groupName => {
+            const radios = document.getElementsByName(groupName);
+            const checked = Array.from(radios).some(radio => radio.checked);
+            if (!checked) {
+                // Encontra o label da questão
+                const radioGroup = radios[0].closest('.form-group');
+                const label = radioGroup.querySelector('label');
+                if (label) {
+                    label.style.color = '#e74c3c';
+                    setTimeout(() => { label.style.color = ''; }, 3000);
+                }
+                isValid = false;
+            }
+        });
 
         return isValid;
     }
@@ -105,11 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const invalidInputs = document.querySelectorAll('.invalid');
         invalidInputs.forEach(input => input.classList.remove('invalid'));
-    }
-
-    function isValidEmail(email) {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
     }
 
     // --- Funções de Admin ---

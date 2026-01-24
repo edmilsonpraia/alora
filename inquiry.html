@@ -9,39 +9,126 @@
     <style>
         /* Estilos específicos para a página do inquérito */
         .survey-only-wrapper {
-            max-width: 700px;
+            max-width: 800px;
             margin: 40px auto;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 50px 60px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
 
-        .page-nav {
-            text-align: center;
-            margin-bottom: 30px;
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
         }
 
-        .nav-link {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
+        .section-title i {
+            color: #26A69A;
+            margin-right: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 35px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1rem;
             font-weight: 600;
+            color: #34495e;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
             transition: all 0.3s ease;
+            background: #fafafa;
         }
 
-        .nav-link:hover {
+        .form-group input[type="text"]:focus {
+            border-color: #26A69A;
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px 20px;
+            background: #fafafa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+
+        .radio-group label:hover {
+            background: #f0f9f8;
+            border-color: #26A69A;
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 14px;
+            margin-top: 3px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .radio-group input[type="radio"]:checked + label,
+        .radio-group label:has(input[type="radio"]:checked) {
+            background: #e8f5f3;
+            border-color: #26A69A;
+            font-weight: 600;
+        }
+
+        .form-footer {
+            margin-top: 45px;
+            text-align: center;
+        }
+
+        .form-footer button {
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            color: white;
+            padding: 16px 50px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-footer button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(38, 166, 154, 0.3);
+            box-shadow: 0 6px 20px rgba(38, 166, 154, 0.4);
         }
 
-        .nav-link i {
-            margin-right: 8px;
+        .admin-compact {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
         }
     </style>
 </head>
@@ -61,83 +148,58 @@
         <form id="surveyForm" class="survey-form" novalidate>
 
             <div class="form-group">
-                <label for="nome">1. Nome Completo</label>
-                <input type="text" id="nome" name="nome" required>
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite o seu nome completo" required>
                 <small class="error-message">Por favor, insira o seu nome completo.</small>
             </div>
 
             <div class="form-group">
-                <label for="email">2. E-mail</label>
-                <input type="email" id="email" name="email" required>
-                <small class="error-message">Por favor, insira um e-mail válido.</small>
-            </div>
-
-            <div class="form-group">
-                <label>3. Qual o seu principal interesse no fórum?</label>
+                <label>1. Hoje, em Angola, a sustentabilidade é praticada principalmente porque:</label>
                 <div class="radio-group">
-                    <label><input type="radio" name="interesse" value="Networking" required> <strong>Networking:</strong> Conectar-me com parceiros e profissionais da área</label>
-                    <label><input type="radio" name="interesse" value="Conhecimento"> <strong>Conhecimento:</strong> Aprender sobre negócios sustentáveis e tendências</label>
-                    <label><input type="radio" name="interesse" value="Oportunidades"> <strong>Oportunidades:</strong> Descobrir novas oportunidades de negócio</label>
-                    <label><input type="radio" name="interesse" value="Inovacao"> <strong>Inovação:</strong> Conhecer soluções inovadoras e tecnologias</label>
+                    <label><input type="radio" name="pratica_sustentabilidade" value="Conviccao_estrategica" required> É uma convicção estratégica para o desenvolvimento do país</label>
+                    <label><input type="radio" name="pratica_sustentabilidade" value="Exigencia_internacional"> É exigida por parceiros internacionais e investidores</label>
+                    <label><input type="radio" name="pratica_sustentabilidade" value="Melhora_imagem"> Melhora a imagem institucional de empresas e entidades</label>
+                    <label><input type="radio" name="pratica_sustentabilidade" value="Nao_prioridade"> Ainda não é, de facto, uma prioridade nacional</label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>4. Formato de participação preferido:</label>
+                <label>2. Na prática, o maior travão para a sustentabilidade em Angola hoje é:</label>
                 <div class="radio-group">
-                    <label><input type="radio" name="formato_participacao" value="Presencial" required> Presencial</label>
-                    <label><input type="radio" name="formato_participacao" value="Online"> Online</label>
-                    <label><input type="radio" name="formato_participacao" value="Hibrido"> Híbrido (flexível)</label>
+                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_lideranca" required> Falta de liderança e decisão política/empresarial</label>
+                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_consciencia"> Falta de consciência e educação da sociedade</label>
+                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_financiamento"> Falta de financiamento e incentivos económicos</label>
+                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_confianca"> Falta de confiança de que sustentabilidade gera retorno económico</label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>5. Hoje, em Angola, a sustentabilidade é praticada principalmente porque:</label>
+                <label>3. Durante anos, em Angola, nunca ligámos muito às emissões porque:</label>
                 <div class="radio-group">
-                    <label><input type="radio" name="pratica_sustentabilidade" value="Conviccao_estrategica" required> <strong>A.</strong> É uma convicção estratégica para o desenvolvimento do país</label>
-                    <label><input type="radio" name="pratica_sustentabilidade" value="Exigencia_internacional"> <strong>B.</strong> É exigida por parceiros internacionais e investidores</label>
-                    <label><input type="radio" name="pratica_sustentabilidade" value="Melhora_imagem"> <strong>C.</strong> Melhora a imagem institucional de empresas e entidades</label>
-                    <label><input type="radio" name="pratica_sustentabilidade" value="Nao_prioridade"> <strong>D.</strong> Ainda não é, de facto, uma prioridade nacional</label>
+                    <label><input type="radio" name="emissoes_angola" value="Outras_prioridades" required> Tínhamos outras prioridades mais urgentes</label>
+                    <label><input type="radio" name="emissoes_angola" value="Problema_outros"> Sempre achámos que poluição era problema "dos outros países"</label>
+                    <label><input type="radio" name="emissoes_angola" value="Nunca_explicaram"> Nunca nos explicaram o impacto real no nosso dia a dia</label>
+                    <label><input type="radio" name="emissoes_angola" value="Nao_pensamos"> Ainda hoje quase não pensamos nisso</label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>6. Na prática, o maior travão para a sustentabilidade em Angola hoje é:</label>
+                <label>4. No nosso dia a dia, o que mais contribui para emissões em Angola é:</label>
                 <div class="radio-group">
-                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_lideranca" required> <strong>A.</strong> Falta de liderança e decisão política/empresarial</label>
-                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_consciencia"> <strong>B.</strong> Falta de consciência e educação da sociedade</label>
-                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_financiamento"> <strong>C.</strong> Falta de financiamento e incentivos económicos</label>
-                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_confianca"> <strong>D.</strong> Falta de confiança de que sustentabilidade gera retorno económico</label>
+                    <label><input type="radio" name="contribui_emissoes" value="Transito_transportes" required> O trânsito e os transportes informais (táxis, candongueiros)</label>
+                    <label><input type="radio" name="contribui_emissoes" value="Uso_ineficiente"> O uso ineficiente de energia e combustível</label>
+                    <label><input type="radio" name="contribui_emissoes" value="Agua_eletricidade"> A forma como usamos água, eletricidade e resíduos</label>
+                    <label><input type="radio" name="contribui_emissoes" value="Nunca_pensei"> Nunca pensei nisso desta forma</label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>7. Durante anos, em Angola, nunca ligámos muito às emissões porque:</label>
+                <label>5. Daqui a 5 anos, as empresas que não integrarem sustentabilidade e ESG de forma séria irão:</label>
                 <div class="radio-group">
-                    <label><input type="radio" name="emissoes_angola" value="Outras_prioridades" required> <strong>A.</strong> Tínhamos outras prioridades mais urgentes</label>
-                    <label><input type="radio" name="emissoes_angola" value="Problema_outros"> <strong>B.</strong> Sempre achámos que poluição era problema "dos outros países"</label>
-                    <label><input type="radio" name="emissoes_angola" value="Nunca_explicaram"> <strong>C.</strong> Nunca nos explicaram o impacto real no nosso dia a dia</label>
-                    <label><input type="radio" name="emissoes_angola" value="Nao_pensamos"> <strong>D.</strong> Ainda hoje quase não pensamos nisso</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>8. No nosso dia a dia, o que mais contribui para emissões em Angola é:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="contribui_emissoes" value="Transito_transportes" required> <strong>A.</strong> O trânsito e os transportes informais (táxis, candongueiros)</label>
-                    <label><input type="radio" name="contribui_emissoes" value="Uso_ineficiente"> <strong>B.</strong> O uso ineficiente de energia e combustível</label>
-                    <label><input type="radio" name="contribui_emissoes" value="Agua_eletricidade"> <strong>C.</strong> A forma como usamos água, eletricidade e resíduos</label>
-                    <label><input type="radio" name="contribui_emissoes" value="Nunca_pensei"> <strong>D.</strong> Nunca pensei nisso desta forma</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>9. Daqui a 5 anos, as empresas que não integrarem sustentabilidade e ESG de forma séria irão:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="futuro_empresas" value="Perder_competitividade" required> <strong>A.</strong> Perder competitividade e relevância</label>
-                    <label><input type="radio" name="futuro_empresas" value="Sobreviver_limitacoes"> <strong>B.</strong> Sobreviver, mas com grandes limitações</label>
-                    <label><input type="radio" name="futuro_empresas" value="Manter_iguais"> <strong>C.</strong> Manter-se praticamente iguais</label>
-                    <label><input type="radio" name="futuro_empresas" value="Sem_impactos"> <strong>D.</strong> Não sofrer impactos relevantes</label>
+                    <label><input type="radio" name="futuro_empresas" value="Perder_competitividade" required> Perder competitividade e relevância</label>
+                    <label><input type="radio" name="futuro_empresas" value="Sobreviver_limitacoes"> Sobreviver, mas com grandes limitações</label>
+                    <label><input type="radio" name="futuro_empresas" value="Manter_iguais"> Manter-se praticamente iguais</label>
+                    <label><input type="radio" name="futuro_empresas" value="Sem_impactos"> Não sofrer impactos relevantes</label>
                 </div>
             </div>
 

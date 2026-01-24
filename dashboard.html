@@ -53,36 +53,6 @@
             <section class="charts-section">
                 <div class="chart-container">
                     <div class="chart-header">
-                        <h2><i class="fas fa-bullseye"></i> Principal Interesse no Fórum</h2>
-                        <p class="chart-description">Distribuição dos interesses dos participantes</p>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="interesseChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <h2><i class="fas fa-laptop-house"></i> Formato de Participação</h2>
-                        <p class="chart-description">Preferências de formato: Presencial, Online ou Híbrido</p>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="formatoChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <h2><i class="fas fa-chart-line"></i> Crescimento de Inscritos</h2>
-                        <p class="chart-description">Evolução do número de inscrições ao longo do tempo</p>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="crescimentoChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-container">
-                    <div class="chart-header">
                         <h2><i class="fas fa-leaf"></i> Prática da Sustentabilidade</h2>
                         <p class="chart-description">Por que a sustentabilidade é praticada em Angola</p>
                     </div>
@@ -133,8 +103,8 @@
 
                 <div class="chart-container full-width">
                     <div class="chart-header">
-                        <h2><i class="fas fa-envelope"></i> Participantes Registados</h2>
-                        <p class="chart-description">Lista de e-mails dos participantes (dados confidenciais)</p>
+                        <h2><i class="fas fa-users"></i> Participantes Registados</h2>
+                        <p class="chart-description">Lista dos participantes do inquérito</p>
                         <button id="toggleParticipantesBtn" class="btn-toggle-participants">
                             <i class="fas fa-eye-slash"></i> Ocultar Participantes
                         </button>
@@ -145,14 +115,11 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nome</th>
-                                    <th>E-mail</th>
-                                    <th>Interesse</th>
-                                    <th>Formato</th>
                                 </tr>
                             </thead>
                             <tbody id="participantesBody">
                                 <tr>
-                                    <td colspan="5" class="empty-state">Nenhuma resposta registada ainda.</td>
+                                    <td colspan="2" class="empty-state">Nenhuma resposta registada ainda.</td>
                                 </tr>
                             </tbody>
                         </table>
