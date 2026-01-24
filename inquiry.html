@@ -16,40 +16,90 @@
             border-radius: 16px;
             padding: 40px 50px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            min-height: 500px;
         }
 
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2c3e50;
+        /* Barra de Progresso */
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
             margin-bottom: 30px;
-            letter-spacing: -0.5px;
-            text-align: center;
+            overflow: hidden;
         }
 
-        .section-title i {
-            color: #26A69A;
-            margin-right: 10px;
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #26A69A, #00897B);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Etapas do Formulário */
+        .form-step {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ícone da Pergunta */
+        .question-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(38, 166, 154, 0.3);
         }
 
         .form-group {
             margin-bottom: 30px;
         }
 
-        .form-group label {
+        .form-group > label {
             display: block;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #34495e;
-            margin-bottom: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
             line-height: 1.5;
+            text-align: center;
         }
 
         .form-group input[type="text"] {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s ease;
             background: #fafafa;
@@ -60,22 +110,24 @@
             border-color: #26A69A;
             background: #fff;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.1);
+            box-shadow: 0 0 0 4px rgba(38, 166, 154, 0.1);
         }
 
         .radio-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .radio-group label {
             display: flex;
             align-items: flex-start;
-            padding: 14px 16px;
+            padding: 16px 20px;
             background: #fafafa;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 400;
@@ -86,13 +138,14 @@
         .radio-group label:hover {
             background: #f0f9f8;
             border-color: #26A69A;
+            transform: translateX(5px);
         }
 
         .radio-group input[type="radio"] {
-            margin-right: 12px;
-            margin-top: 2px;
-            width: 18px;
-            height: 18px;
+            margin-right: 14px;
+            margin-top: 3px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             flex-shrink: 0;
             accent-color: #26A69A;
@@ -101,37 +154,77 @@
         .radio-group label:has(input[type="radio"]:checked) {
             background: #e8f5f3;
             border-color: #26A69A;
-            font-weight: 500;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(38, 166, 154, 0.2);
         }
 
-        .form-footer {
+        /* Botões de Navegação */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
             margin-top: 40px;
-            text-align: center;
         }
 
-        .form-footer button {
-            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
-            color: white;
-            padding: 14px 40px;
+        .btn-nav {
+            padding: 14px 30px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            width: 100%;
-            max-width: 300px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .form-footer button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(38, 166, 154, 0.4);
+        .btn-prev {
+            background: #e0e0e0;
+            color: #666;
         }
 
-        .form-footer button:active {
-            transform: translateY(0);
+        .btn-prev:hover {
+            background: #d0d0d0;
+            transform: translateX(-3px);
+        }
+
+        .btn-next, .btn-submit {
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-next:hover, .btn-submit:hover {
+            transform: translateX(3px);
+            box-shadow: 0 4px 15px rgba(38, 166, 154, 0.4);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .error-message {
+            display: none;
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        input.invalid {
+            border-color: #e74c3c !important;
+            background: #fee;
+        }
+
+        .success-message {
+            padding: 20px;
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            color: #155724;
+            font-size: 1rem;
         }
 
         .admin-compact {
@@ -146,20 +239,19 @@
                 margin: 10px;
                 padding: 30px 20px;
                 border-radius: 12px;
+                min-height: 450px;
             }
 
-            .section-title {
-                font-size: 1.2rem;
-                margin-bottom: 25px;
+            .question-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.7rem;
+                margin-bottom: 20px;
             }
 
-            .form-group {
-                margin-bottom: 25px;
-            }
-
-            .form-group label {
-                font-size: 0.9rem;
-                margin-bottom: 10px;
+            .form-group > label {
+                font-size: 1rem;
+                margin-bottom: 18px;
             }
 
             .form-group input[type="text"] {
@@ -168,7 +260,7 @@
             }
 
             .radio-group {
-                gap: 8px;
+                gap: 10px;
             }
 
             .radio-group label {
@@ -178,19 +270,19 @@
             }
 
             .radio-group input[type="radio"] {
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
                 margin-right: 10px;
             }
 
-            .form-footer {
-                margin-top: 35px;
+            .form-navigation {
+                margin-top: 30px;
+                gap: 10px;
             }
 
-            .form-footer button {
-                padding: 14px 30px;
-                font-size: 0.95rem;
-                max-width: 100%;
+            .btn-nav {
+                padding: 12px 20px;
+                font-size: 0.9rem;
             }
 
             .event-header h1 {
@@ -208,17 +300,24 @@
                 padding: 25px 15px;
             }
 
-            .section-title {
-                font-size: 1.1rem;
+            .question-icon {
+                width: 55px;
+                height: 55px;
+                font-size: 1.5rem;
             }
 
-            .form-group label {
-                font-size: 0.85rem;
+            .form-group > label {
+                font-size: 0.95rem;
             }
 
             .radio-group label {
                 font-size: 0.82rem;
                 padding: 10px 12px;
+            }
+
+            .btn-nav {
+                padding: 12px 15px;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -234,71 +333,121 @@
     </header>
 
     <div class="survey-only-wrapper">
-        <h2 class="section-title"><i class="fas fa-edit"></i> Inquérito de Participação</h2>
+        <!-- Barra de Progresso -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">Etapa 1 de 6</div>
 
         <form id="surveyForm" class="survey-form" novalidate>
 
-            <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome" placeholder="Digite o seu nome completo" required>
-                <small class="error-message">Por favor, insira o seu nome completo.</small>
-            </div>
-
-            <div class="form-group">
-                <label>1. Hoje, em Angola, a sustentabilidade é praticada principalmente porque:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="pratica_sustentabilidade" value="Conviccao_estrategica" required> É uma convicção estratégica para o desenvolvimento do país</label>
-                    <label><input type="radio" name="pratica_sustentabilidade" value="Exigencia_internacional"> É exigida por parceiros internacionais e investidores</label>
-                    <label><input type="radio" name="pratica_sustentabilidade" value="Melhora_imagem"> Melhora a imagem institucional de empresas e entidades</label>
-                    <label><input type="radio" name="pratica_sustentabilidade" value="Nao_prioridade"> Ainda não é, de facto, uma prioridade nacional</label>
+            <!-- Etapa 1: Nome -->
+            <div class="form-step active" data-step="1">
+                <div class="question-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <label for="nome">Qual é o seu nome?</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite o seu nome completo" required>
+                    <small class="error-message">Por favor, insira o seu nome completo.</small>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>2. Na prática, o maior travão para a sustentabilidade em Angola hoje é:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_lideranca" required> Falta de liderança e decisão política/empresarial</label>
-                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_consciencia"> Falta de consciência e educação da sociedade</label>
-                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_financiamento"> Falta de financiamento e incentivos económicos</label>
-                    <label><input type="radio" name="travao_sustentabilidade" value="Falta_confianca"> Falta de confiança de que sustentabilidade gera retorno económico</label>
+            <!-- Etapa 2: Prática Sustentabilidade -->
+            <div class="form-step" data-step="2">
+                <div class="question-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="form-group">
+                    <label>Hoje, em Angola, a sustentabilidade é praticada principalmente porque:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="pratica_sustentabilidade" value="Conviccao_estrategica" required> É uma convicção estratégica para o desenvolvimento do país</label>
+                        <label><input type="radio" name="pratica_sustentabilidade" value="Exigencia_internacional"> É exigida por parceiros internacionais e investidores</label>
+                        <label><input type="radio" name="pratica_sustentabilidade" value="Melhora_imagem"> Melhora a imagem institucional de empresas e entidades</label>
+                        <label><input type="radio" name="pratica_sustentabilidade" value="Nao_prioridade"> Ainda não é, de facto, uma prioridade nacional</label>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>3. Durante anos, em Angola, nunca ligámos muito às emissões porque:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="emissoes_angola" value="Outras_prioridades" required> Tínhamos outras prioridades mais urgentes</label>
-                    <label><input type="radio" name="emissoes_angola" value="Problema_outros"> Sempre achámos que poluição era problema "dos outros países"</label>
-                    <label><input type="radio" name="emissoes_angola" value="Nunca_explicaram"> Nunca nos explicaram o impacto real no nosso dia a dia</label>
-                    <label><input type="radio" name="emissoes_angola" value="Nao_pensamos"> Ainda hoje quase não pensamos nisso</label>
+            <!-- Etapa 3: Travão Sustentabilidade -->
+            <div class="form-step" data-step="3">
+                <div class="question-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="form-group">
+                    <label>Na prática, o maior travão para a sustentabilidade em Angola hoje é:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="travao_sustentabilidade" value="Falta_lideranca" required> Falta de liderança e decisão política/empresarial</label>
+                        <label><input type="radio" name="travao_sustentabilidade" value="Falta_consciencia"> Falta de consciência e educação da sociedade</label>
+                        <label><input type="radio" name="travao_sustentabilidade" value="Falta_financiamento"> Falta de financiamento e incentivos económicos</label>
+                        <label><input type="radio" name="travao_sustentabilidade" value="Falta_confianca"> Falta de confiança de que sustentabilidade gera retorno económico</label>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>4. No nosso dia a dia, o que mais contribui para emissões em Angola é:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="contribui_emissoes" value="Transito_transportes" required> O trânsito e os transportes informais (táxis, candongueiros)</label>
-                    <label><input type="radio" name="contribui_emissoes" value="Uso_ineficiente"> O uso ineficiente de energia e combustível</label>
-                    <label><input type="radio" name="contribui_emissoes" value="Agua_eletricidade"> A forma como usamos água, eletricidade e resíduos</label>
-                    <label><input type="radio" name="contribui_emissoes" value="Nunca_pensei"> Nunca pensei nisso desta forma</label>
+            <!-- Etapa 4: Emissões Angola -->
+            <div class="form-step" data-step="4">
+                <div class="question-icon">
+                    <i class="fas fa-smog"></i>
+                </div>
+                <div class="form-group">
+                    <label>Durante anos, em Angola, nunca ligámos muito às emissões porque:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="emissoes_angola" value="Outras_prioridades" required> Tínhamos outras prioridades mais urgentes</label>
+                        <label><input type="radio" name="emissoes_angola" value="Problema_outros"> Sempre achámos que poluição era problema "dos outros países"</label>
+                        <label><input type="radio" name="emissoes_angola" value="Nunca_explicaram"> Nunca nos explicaram o impacto real no nosso dia a dia</label>
+                        <label><input type="radio" name="emissoes_angola" value="Nao_pensamos"> Ainda hoje quase não pensamos nisso</label>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>5. Daqui a 5 anos, as empresas que não integrarem sustentabilidade e ESG de forma séria irão:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="futuro_empresas" value="Perder_competitividade" required> Perder competitividade e relevância</label>
-                    <label><input type="radio" name="futuro_empresas" value="Sobreviver_limitacoes"> Sobreviver, mas com grandes limitações</label>
-                    <label><input type="radio" name="futuro_empresas" value="Manter_iguais"> Manter-se praticamente iguais</label>
-                    <label><input type="radio" name="futuro_empresas" value="Sem_impactos"> Não sofrer impactos relevantes</label>
+            <!-- Etapa 5: Contribui Emissões -->
+            <div class="form-step" data-step="5">
+                <div class="question-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="form-group">
+                    <label>No nosso dia a dia, o que mais contribui para emissões em Angola é:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="contribui_emissoes" value="Transito_transportes" required> O trânsito e os transportes informais (táxis, candongueiros)</label>
+                        <label><input type="radio" name="contribui_emissoes" value="Uso_ineficiente"> O uso ineficiente de energia e combustível</label>
+                        <label><input type="radio" name="contribui_emissoes" value="Agua_eletricidade"> A forma como usamos água, eletricidade e resíduos</label>
+                        <label><input type="radio" name="contribui_emissoes" value="Nunca_pensei"> Nunca pensei nisso desta forma</label>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-footer">
-                <button type="submit"><i class="fas fa-paper-plane"></i> ENVIAR INQUÉRITO</button>
-                <div id="successMessage" class="success-message">
-                    <strong>Muito obrigado!</strong> A sua resposta foi registada com sucesso.
+            <!-- Etapa 6: Futuro Empresas -->
+            <div class="form-step" data-step="6">
+                <div class="question-icon">
+                    <i class="fas fa-building"></i>
                 </div>
+                <div class="form-group">
+                    <label>Daqui a 5 anos, as empresas que não integrarem sustentabilidade e ESG de forma séria irão:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="futuro_empresas" value="Perder_competitividade" required> Perder competitividade e relevância</label>
+                        <label><input type="radio" name="futuro_empresas" value="Sobreviver_limitacoes"> Sobreviver, mas com grandes limitações</label>
+                        <label><input type="radio" name="futuro_empresas" value="Manter_iguais"> Manter-se praticamente iguais</label>
+                        <label><input type="radio" name="futuro_empresas" value="Sem_impactos"> Não sofrer impactos relevantes</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegação -->
+            <div class="form-navigation">
+                <button type="button" class="btn-nav btn-prev" id="btnPrev" style="display: none;">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <button type="button" class="btn-nav btn-next" id="btnNext">
+                    Próximo <i class="fas fa-arrow-right"></i>
+                </button>
+                <button type="submit" class="btn-nav btn-submit" id="btnSubmit" style="display: none;">
+                    <i class="fas fa-paper-plane"></i> Enviar Inquérito
+                </button>
+            </div>
+
+            <div id="successMessage" class="success-message" style="display: none; margin-top: 20px; text-align: center;">
+                <strong>Muito obrigado!</strong> A sua resposta foi registada com sucesso.
             </div>
 
         </form>
@@ -319,5 +468,122 @@
     </div>
 
     <script src="main.js"></script>
+    <script>
+        // Sistema de Navegação por Etapas
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        const formSteps = document.querySelectorAll('.form-step');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            progressBar.style.width = progress + '%';
+            progressText.textContent = `Etapa ${currentStep} de ${totalSteps}`;
+        }
+
+        function showStep(step) {
+            formSteps.forEach((formStep, index) => {
+                formStep.classList.remove('active');
+                if (index + 1 === step) {
+                    formStep.classList.add('active');
+                }
+            });
+
+            // Controlar visibilidade dos botões
+            if (step === 1) {
+                btnPrev.style.display = 'none';
+            } else {
+                btnPrev.style.display = 'flex';
+            }
+
+            if (step === totalSteps) {
+                btnNext.style.display = 'none';
+                btnSubmit.style.display = 'flex';
+            } else {
+                btnNext.style.display = 'flex';
+                btnSubmit.style.display = 'none';
+            }
+
+            updateProgress();
+
+            // Scroll suave para o topo
+            document.querySelector('.survey-only-wrapper').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function validateCurrentStep() {
+            const activeStep = document.querySelector('.form-step.active');
+
+            // Validar input de texto
+            const textInput = activeStep.querySelector('input[type="text"]');
+            if (textInput) {
+                if (!textInput.value.trim()) {
+                    textInput.classList.add('invalid');
+                    const errorMsg = activeStep.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.style.display = 'block';
+                    }
+                    return false;
+                } else {
+                    textInput.classList.remove('invalid');
+                    const errorMsg = activeStep.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.style.display = 'none';
+                    }
+                }
+            }
+
+            // Validar radio buttons
+            const radioGroup = activeStep.querySelector('input[type="radio"]');
+            if (radioGroup) {
+                const radioName = radioGroup.getAttribute('name');
+                const checkedRadio = activeStep.querySelector(`input[name="${radioName}"]:checked`);
+                if (!checkedRadio) {
+                    const label = activeStep.querySelector('.form-group > label');
+                    if (label) {
+                        label.style.color = '#e74c3c';
+                        setTimeout(() => { label.style.color = ''; }, 2000);
+                    }
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (validateCurrentStep()) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+        // Permitir avançar com Enter (exceto no último passo)
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && currentStep < totalSteps) {
+                e.preventDefault();
+                btnNext.click();
+            }
+        });
+
+        // Inicializar
+        showStep(currentStep);
+    </script>
 </body>
 </html>
