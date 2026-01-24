@@ -5,7 +5,7 @@ Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 Chart.defaults.color = '#666';
 
 // Variáveis globais
-let interesseChart, formatoChart;
+let interesseChart, formatoChart, crescimentoChart;
 let respostas = [];
 
 // Paleta de cores profissional
@@ -130,12 +130,15 @@ function processarDados() {
 
 // Atualizar estatísticas resumidas
 function atualizarEstatisticas(stats) {
-    // Conta quantas respostas são reais (não de demonstração)
-    const respostasReais = respostas.filter(r => !r.isDemoData).length;
-    const totalComDemo = stats.total;
-
     // Mostra o total (com dados demo incluídos)
+    const totalComDemo = stats.total;
     document.getElementById('totalRespostas').textContent = totalComDemo;
+
+    // Atualiza taxa de resposta se o elemento existir
+    const taxaElement = document.getElementById('taxaResposta');
+    if (taxaElement) {
+        taxaElement.textContent = '100%';
+    }
 
     const agora = new Date();
     const horaAtual = agora.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
@@ -242,26 +245,141 @@ function criarGraficoFormato(stats) {
     });
 }
 
-// Atualizar tabela de participantes (últimas 5 respostas)
+// Criar gráfico de crescimento de inscritos
+function criarGraficoCrescimento() {
+    const canvas = document.getElementById('crescimentoChart');
+    if (!canvas) return; // Só cria se o canvas existir (página dashboard.html)
+
+    const ctx = canvas.getContext('2d');
+
+    if (crescimentoChart) {
+        crescimentoChart.destroy();
+    }
+
+    // Agrupar respostas por data
+    const respostasPorDia = {};
+
+    respostas.forEach(resposta => {
+        const data = new Date(resposta.timestamp);
+        const dia = data.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' });
+
+        if (!respostasPorDia[dia]) {
+            respostasPorDia[dia] = 0;
+        }
+        respostasPorDia[dia]++;
+    });
+
+    // Criar array acumulativo
+    const dias = Object.keys(respostasPorDia);
+    let acumulado = 0;
+    const dadosAcumulados = dias.map(dia => {
+        acumulado += respostasPorDia[dia];
+        return acumulado;
+    });
+
+    crescimentoChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: dias,
+            datasets: [{
+                label: 'Total de Inscritos',
+                data: dadosAcumulados,
+                backgroundColor: cores.verde,
+                borderColor: cores.verdeEscuro,
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Total: ${context.parsed.y} inscritos`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Número de Inscritos',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Data',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Atualizar tabela de participantes (últimas 5 respostas ou todas)
 function atualizarTabela() {
     const tbody = document.getElementById('participantesBody');
 
     if (respostas.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="2" class="empty-state">Aguardando respostas...</td></tr>';
+        const colspan = tbody.closest('table').querySelectorAll('thead th').length;
+        tbody.innerHTML = `<tr><td colspan="${colspan}" class="empty-state">Aguardando respostas...</td></tr>`;
         return;
     }
 
     tbody.innerHTML = '';
-    // Mostra apenas as últimas 5 respostas
-    const ultimasRespostas = respostas.slice(-5).reverse();
-    ultimasRespostas.forEach((resposta) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${resposta.nome}</td>
-            <td>${resposta.interesse}</td>
-        `;
-        tbody.appendChild(tr);
-    });
+
+    // Se for a tabela compacta (2 colunas), mostra últimas 5
+    const isCompactTable = tbody.closest('table').classList.contains('table-compact');
+
+    if (isCompactTable) {
+        // Mostra apenas as últimas 5 respostas
+        const ultimasRespostas = respostas.slice(-5).reverse();
+        ultimasRespostas.forEach((resposta) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${resposta.nome}</td>
+                <td>${resposta.interesse}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } else {
+        // Mostra todas as respostas (tabela completa no dashboard.html)
+        respostas.slice().reverse().forEach((resposta, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${respostas.length - index}</td>
+                <td>${resposta.nome}</td>
+                <td>${resposta.email}</td>
+                <td>${resposta.interesse}</td>
+                <td>${resposta.formato_participacao}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
 }
 
 // Atualizar todos os dados
@@ -272,7 +390,31 @@ function atualizarDashboard() {
     atualizarEstatisticas(stats);
     criarGraficoInteresse(stats);
     criarGraficoFormato(stats);
+    criarGraficoCrescimento();
     atualizarTabela();
+}
+
+// Exportar para CSV
+function exportarCSV() {
+    const headers = ['Nome', 'E-mail', 'Interesse', 'Formato de Participação', 'Data'];
+    const linhas = respostas.map(r => [
+        r.nome,
+        r.email,
+        r.interesse,
+        r.formato_participacao,
+        new Date(r.timestamp).toLocaleString('pt-PT')
+    ]);
+
+    let csvContent = headers.join(',') + '\n';
+    linhas.forEach(linha => {
+        csvContent += linha.map(campo => `"${campo}"`).join(',') + '\n';
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'resultados_inquerito.csv';
+    link.click();
 }
 
 // Event Listeners
@@ -281,6 +423,38 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         atualizarDashboard();
     }, 100);
+
+    // Botão de atualizar (se existir)
+    const refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            atualizarDashboard();
+            refreshBtn.innerHTML = '<i class="fas fa-check"></i> Atualizado!';
+            setTimeout(() => {
+                refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Atualizar Dados';
+            }, 2000);
+        });
+    }
+
+    // Botões de exportação (se existirem)
+    const exportCsvBtn = document.getElementById('exportCsvBtn');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const exportExcelBtn = document.getElementById('exportExcelBtn');
+
+    if (exportCsvBtn) {
+        exportCsvBtn.addEventListener('click', exportarCSV);
+    }
+
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener('click', () => {
+            alert('Use a função de impressão do navegador (Ctrl+P) e salve como PDF.');
+            window.print();
+        });
+    }
+
+    if (exportExcelBtn) {
+        exportExcelBtn.addEventListener('click', exportarCSV);
+    }
 
     // Atualização automática a cada 3 segundos para refletir mudanças em tempo real
     setInterval(atualizarDashboard, 3000);

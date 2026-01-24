@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inquérito: 2º Fórum Nacional de Negócios Sustentáveis</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos específicos para a página do inquérito */
+        .survey-only-wrapper {
+            max-width: 700px;
+            margin: 40px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-nav {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(38, 166, 154, 0.3);
+        }
+
+        .nav-link i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="event-header">
+        <div class="header-content">
+            <img src="logotipo.png" alt="Logo Allora" class="logo">
+            <h1>2º Fórum Nacional de Negócios Sustentáveis</h1>
+            <p class="subtitle">"Desenhando um futuro sustentável" - 20 de Fevereiro de 2026</p>
+        </div>
+    </header>
+
+    <div class="survey-only-wrapper">
+        <div class="page-nav">
+            <a href="dashboard.html" class="nav-link">
+                <i class="fas fa-chart-line"></i> Ver Dashboard
+            </a>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-edit"></i> Inquérito de Participação</h2>
+
+        <form id="surveyForm" class="survey-form" novalidate>
+
+            <div class="form-group">
+                <label for="nome">1. Nome Completo</label>
+                <input type="text" id="nome" name="nome" required>
+                <small class="error-message">Por favor, insira o seu nome completo.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="email">2. E-mail</label>
+                <input type="email" id="email" name="email" required>
+                <small class="error-message">Por favor, insira um e-mail válido.</small>
+            </div>
+
+            <div class="form-group">
+                <label>3. Qual o seu principal interesse no fórum?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="interesse" value="Networking" required> <strong>Networking:</strong> Conectar-me com parceiros e profissionais da área</label>
+                    <label><input type="radio" name="interesse" value="Conhecimento"> <strong>Conhecimento:</strong> Aprender sobre negócios sustentáveis e tendências</label>
+                    <label><input type="radio" name="interesse" value="Oportunidades"> <strong>Oportunidades:</strong> Descobrir novas oportunidades de negócio</label>
+                    <label><input type="radio" name="interesse" value="Inovacao"> <strong>Inovação:</strong> Conhecer soluções inovadoras e tecnologias</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>4. Formato de participação preferido:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="formato_participacao" value="Presencial" required> Presencial</label>
+                    <label><input type="radio" name="formato_participacao" value="Online"> Online</label>
+                    <label><input type="radio" name="formato_participacao" value="Hibrido"> Híbrido (flexível)</label>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit"><i class="fas fa-paper-plane"></i> ENVIAR INQUÉRITO</button>
+                <div id="successMessage" class="success-message">
+                    <strong>Muito obrigado!</strong> A sua resposta foi registada com sucesso.
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Painel Admin -->
+        <div class="admin-compact">
+            <button id="toggleAdminBtn" class="btn-admin">
+                <i class="fas fa-cog"></i> Painel Admin
+            </button>
+            <div id="adminPanel" class="admin-panel-compact" style="display: none;">
+                <p>Total: <strong id="submissionCount">0</strong> respostas reais</p>
+                <div class="admin-actions-compact">
+                    <button id="downloadCsvBtn" class="btn-small"><i class="fas fa-download"></i> CSV</button>
+                    <button id="downloadReportBtn" class="btn-small"><i class="fas fa-file-pdf"></i> PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

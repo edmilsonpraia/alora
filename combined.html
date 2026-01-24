@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inquérito: 2º Fórum Nacional de Negócios Sustentáveis</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Biblioteca de ícones (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="event-header">
+        <div class="header-content">
+            <img src="logotipo.png" alt="Logo Allora" class="logo">
+            <h1>2º Fórum Nacional de Negócios Sustentáveis</h1>
+            <p class="subtitle">"Desenhando um futuro sustentável" - 20 de Fevereiro de 2026</p>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Coluna do Formulário -->
+        <div class="form-column">
+            <div class="form-wrapper">
+                <h2 class="section-title"><i class="fas fa-edit"></i> Inquérito de Participação</h2>
+                <form id="surveyForm" class="survey-form" novalidate>
+
+                    <div class="form-group">
+                        <label for="nome">1. Nome Completo</label>
+                        <input type="text" id="nome" name="nome" required>
+                        <small class="error-message">Por favor, insira o seu nome completo.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">2. E-mail</label>
+                        <input type="email" id="email" name="email" required>
+                        <small class="error-message">Por favor, insira um e-mail válido.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3. Qual o seu principal interesse no fórum?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="interesse" value="Networking" required> <strong>Networking:</strong> Conectar-me com parceiros</label>
+                            <label><input type="radio" name="interesse" value="Conhecimento"> <strong>Conhecimento:</strong> Aprender sobre sustentabilidade</label>
+                            <label><input type="radio" name="interesse" value="Oportunidades"> <strong>Oportunidades:</strong> Novas oportunidades de negócio</label>
+                            <label><input type="radio" name="interesse" value="Inovacao"> <strong>Inovação:</strong> Soluções inovadoras</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4. Formato de participação preferido:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="formato_participacao" value="Presencial" required> Presencial</label>
+                            <label><input type="radio" name="formato_participacao" value="Online"> Online</label>
+                            <label><input type="radio" name="formato_participacao" value="Hibrido"> Híbrido</label>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit"><i class="fas fa-paper-plane"></i> ENVIAR INQUÉRITO</button>
+                        <div id="successMessage" class="success-message">
+                            <strong>Muito obrigado!</strong> A sua resposta foi registada com sucesso.
+                        </div>
+                    </div>
+
+                </form>
+
+                <!-- Painel Admin -->
+                <div class="admin-compact">
+                    <button id="toggleAdminBtn" class="btn-admin">
+                        <i class="fas fa-cog"></i> Painel Admin
+                    </button>
+                    <div id="adminPanel" class="admin-panel-compact" style="display: none;">
+                        <p>Total: <strong id="submissionCount">0</strong> respostas</p>
+                        <div class="admin-actions-compact">
+                            <button id="downloadCsvBtn" class="btn-small"><i class="fas fa-download"></i> CSV</button>
+                            <button id="downloadReportBtn" class="btn-small"><i class="fas fa-file-pdf"></i> PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna do Dashboard -->
+        <div class="dashboard-column">
+            <div class="dashboard-wrapper">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Dashboard ao Vivo</h2>
+
+                <!-- Estatísticas Resumidas -->
+                <section class="stats-section-compact">
+                    <div class="stat-card-compact">
+                        <div class="stat-icon-compact"><i class="fas fa-users"></i></div>
+                        <div class="stat-info-compact">
+                            <h3 id="totalRespostas">0</h3>
+                            <p>Respostas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card-compact">
+                        <div class="stat-icon-compact"><i class="fas fa-clock"></i></div>
+                        <div class="stat-info-compact">
+                            <h3 id="ultimaAtualizacao">--</h3>
+                            <p>Última</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Gráficos -->
+                <section class="charts-section-compact">
+                    <div class="chart-container-compact">
+                        <div class="chart-header-compact">
+                            <h3><i class="fas fa-bullseye"></i> Interesse</h3>
+                        </div>
+                        <div class="chart-wrapper-compact">
+                            <canvas id="interesseChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container-compact">
+                        <div class="chart-header-compact">
+                            <h3><i class="fas fa-laptop-house"></i> Formato</h3>
+                        </div>
+                        <div class="chart-wrapper-compact">
+                            <canvas id="formatoChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-container-compact">
+                        <div class="chart-header-compact">
+                            <h3><i class="fas fa-users"></i> Últimas Respostas</h3>
+                        </div>
+                        <div class="table-wrapper-compact">
+                            <table id="participantesTable" class="table-compact">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Interesse</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="participantesBody">
+                                    <tr>
+                                        <td colspan="2" class="empty-state">Aguardando respostas...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="main.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

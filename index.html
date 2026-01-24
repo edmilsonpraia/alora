@@ -3,154 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inquérito: 2º Fórum Nacional de Negócios Sustentáveis</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Biblioteca de ícones (Font Awesome) -->
+    <title>2º Fórum Nacional de Negócios Sustentáveis - Allora</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Fundo com imagem e blur */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Foto.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .landing-container {
+            max-width: 900px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .landing-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 60px 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 150px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00897B;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .event-date {
+            font-size: 1.1em;
+            color: #26A69A;
+            font-weight: 600;
+            margin-bottom: 40px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, rgba(38, 166, 154, 0.1) 0%, rgba(0, 137, 123, 0.1) 100%);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .description {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .actions-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border-color: #26A69A;
+        }
+
+        .action-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover .action-icon {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(38, 166, 154, 0.4);
+        }
+
+        .action-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #00897B;
+            margin-bottom: 10px;
+        }
+
+        .action-description {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .landing-card {
+                padding: 40px 25px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            .actions-container {
+                grid-template-columns: 1fr;
+            }
+
+            .action-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <header class="event-header">
-        <div class="header-content">
+    <div class="landing-container">
+        <div class="landing-card">
             <img src="logotipo.png" alt="Logo Allora" class="logo">
-            <h1>2º Fórum Nacional de Negócios Sustentáveis</h1>
-            <p class="subtitle">"Desenhando um futuro sustentável" - 20 de Fevereiro de 2026</p>
-        </div>
-    </header>
 
-    <div class="main-container">
-        <!-- Coluna do Formulário -->
-        <div class="form-column">
-            <div class="form-wrapper">
-                <h2 class="section-title"><i class="fas fa-edit"></i> Inquérito de Participação</h2>
-                <form id="surveyForm" class="survey-form" novalidate>
+            <h1>2º Fórum Nacional de<br>Negócios Sustentáveis</h1>
 
-                    <div class="form-group">
-                        <label for="nome">1. Nome Completo</label>
-                        <input type="text" id="nome" name="nome" required>
-                        <small class="error-message">Por favor, insira o seu nome completo.</small>
-                    </div>
+            <p class="subtitle">"Desenhando um futuro sustentável"</p>
 
-                    <div class="form-group">
-                        <label for="email">2. E-mail</label>
-                        <input type="email" id="email" name="email" required>
-                        <small class="error-message">Por favor, insira um e-mail válido.</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>3. Qual o seu principal interesse no fórum?</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="interesse" value="Networking" required> <strong>Networking:</strong> Conectar-me com parceiros</label>
-                            <label><input type="radio" name="interesse" value="Conhecimento"> <strong>Conhecimento:</strong> Aprender sobre sustentabilidade</label>
-                            <label><input type="radio" name="interesse" value="Oportunidades"> <strong>Oportunidades:</strong> Novas oportunidades de negócio</label>
-                            <label><input type="radio" name="interesse" value="Inovacao"> <strong>Inovação:</strong> Soluções inovadoras</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>4. Formato de participação preferido:</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="formato_participacao" value="Presencial" required> Presencial</label>
-                            <label><input type="radio" name="formato_participacao" value="Online"> Online</label>
-                            <label><input type="radio" name="formato_participacao" value="Hibrido"> Híbrido</label>
-                        </div>
-                    </div>
-
-                    <div class="form-footer">
-                        <button type="submit"><i class="fas fa-paper-plane"></i> ENVIAR INQUÉRITO</button>
-                        <div id="successMessage" class="success-message">
-                            <strong>Muito obrigado!</strong> A sua resposta foi registada com sucesso.
-                        </div>
-                    </div>
-
-                </form>
-
-                <!-- Painel Admin -->
-                <div class="admin-compact">
-                    <button id="toggleAdminBtn" class="btn-admin">
-                        <i class="fas fa-cog"></i> Painel Admin
-                    </button>
-                    <div id="adminPanel" class="admin-panel-compact" style="display: none;">
-                        <p>Total: <strong id="submissionCount">0</strong> respostas</p>
-                        <div class="admin-actions-compact">
-                            <button id="downloadCsvBtn" class="btn-small"><i class="fas fa-download"></i> CSV</button>
-                            <button id="downloadReportBtn" class="btn-small"><i class="fas fa-file-pdf"></i> PDF</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="event-date">
+                <i class="fas fa-calendar-alt"></i> 20 de Fevereiro de 2026
             </div>
-        </div>
 
-        <!-- Coluna do Dashboard -->
-        <div class="dashboard-column">
-            <div class="dashboard-wrapper">
-                <h2 class="section-title"><i class="fas fa-chart-line"></i> Dashboard ao Vivo</h2>
+            <p class="description">
+                Participe do nosso inquérito e ajude-nos a criar um fórum mais relevante e alinhado
+                com as necessidades do mercado angolano. A sua contribuição é essencial para desenharmos
+                um evento que promova a sustentabilidade e a inovação nos negócios.
+            </p>
 
-                <!-- Estatísticas Resumidas -->
-                <section class="stats-section-compact">
-                    <div class="stat-card-compact">
-                        <div class="stat-icon-compact"><i class="fas fa-users"></i></div>
-                        <div class="stat-info-compact">
-                            <h3 id="totalRespostas">0</h3>
-                            <p>Respostas</p>
-                        </div>
+            <div class="actions-container">
+                <a href="inquiry.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-edit"></i>
                     </div>
-                    <div class="stat-card-compact">
-                        <div class="stat-icon-compact"><i class="fas fa-clock"></i></div>
-                        <div class="stat-info-compact">
-                            <h3 id="ultimaAtualizacao">--</h3>
-                            <p>Última</p>
-                        </div>
+                    <div class="action-title">Responder Inquérito</div>
+                    <div class="action-description">
+                        Preencha o nosso inquérito de participação e partilhe as suas expectativas para o fórum
                     </div>
-                </section>
+                </a>
 
-                <!-- Gráficos -->
-                <section class="charts-section-compact">
-                    <div class="chart-container-compact">
-                        <div class="chart-header-compact">
-                            <h3><i class="fas fa-bullseye"></i> Interesse</h3>
-                        </div>
-                        <div class="chart-wrapper-compact">
-                            <canvas id="interesseChart"></canvas>
-                        </div>
+                <a href="dashboard.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-chart-line"></i>
                     </div>
+                    <div class="action-title">Ver Dashboard</div>
+                    <div class="action-description">
+                        Acompanhe em tempo real os resultados do inquérito e as estatísticas de participação
+                    </div>
+                </a>
+            </div>
 
-                    <div class="chart-container-compact">
-                        <div class="chart-header-compact">
-                            <h3><i class="fas fa-laptop-house"></i> Formato</h3>
-                        </div>
-                        <div class="chart-wrapper-compact">
-                            <canvas id="formatoChart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="chart-container-compact">
-                        <div class="chart-header-compact">
-                            <h3><i class="fas fa-users"></i> Últimas Respostas</h3>
-                        </div>
-                        <div class="table-wrapper-compact">
-                            <table id="participantesTable" class="table-compact">
-                                <thead>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <th>Interesse</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="participantesBody">
-                                    <tr>
-                                        <td colspan="2" class="empty-state">Aguardando respostas...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+            <div class="footer">
+                <p>&copy; 2026 Allora - Todos os direitos reservados</p>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="main.js"></script>
-    <script src="dashboard.js"></script>
 </body>
 </html>
