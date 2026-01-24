@@ -356,6 +356,7 @@ function criarGraficoCrescimento() {
             }]
         },
         options: {
+            indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -384,13 +385,13 @@ function criarGraficoCrescimento() {
                     cornerRadius: 8,
                     callbacks: {
                         label: function(context) {
-                            return `Total: ${context.parsed.y} inscritos`;
+                            return `Total: ${context.parsed.x} inscritos`;
                         }
                     }
                 }
             },
             scales: {
-                y: {
+                x: {
                     beginAtZero: true,
                     ticks: {
                         stepSize: 1,
@@ -412,7 +413,7 @@ function criarGraficoCrescimento() {
                         padding: 10
                     }
                 },
-                x: {
+                y: {
                     grid: {
                         display: false,
                         drawBorder: false
