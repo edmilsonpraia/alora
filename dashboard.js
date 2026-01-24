@@ -164,24 +164,40 @@ function criarGraficoInteresse(stats) {
             datasets: [{
                 data: data,
                 backgroundColor: backgroundColors,
-                borderWidth: 3,
-                borderColor: '#fff'
+                borderWidth: 4,
+                borderColor: '#fff',
+                hoverOffset: 15,
+                hoverBorderWidth: 5
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '65%',
             plugins: {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        padding: 20,
+                        padding: 15,
                         font: {
-                            size: 13
-                        }
+                            size: 12,
+                            weight: '600'
+                        },
+                        usePointStyle: true,
+                        pointStyle: 'circle'
                     }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    padding: 12,
+                    cornerRadius: 8,
                     callbacks: {
                         label: function(context) {
                             const total = context.dataset.data.reduce((a, b) => a + b, 0);
@@ -190,6 +206,10 @@ function criarGraficoInteresse(stats) {
                         }
                     }
                 }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true
             }
         }
     });
@@ -208,30 +228,46 @@ function criarGraficoFormato(stats) {
     const backgroundColors = [cores.verdeEscuro, cores.laranja, cores.ciano];
 
     formatoChart = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: labels,
             datasets: [{
                 data: data,
                 backgroundColor: backgroundColors,
-                borderWidth: 3,
-                borderColor: '#fff'
+                borderWidth: 4,
+                borderColor: '#fff',
+                hoverOffset: 15,
+                hoverBorderWidth: 5
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '60%',
             plugins: {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        padding: 20,
+                        padding: 15,
                         font: {
-                            size: 13
-                        }
+                            size: 12,
+                            weight: '600'
+                        },
+                        usePointStyle: true,
+                        pointStyle: 'circle'
                     }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    padding: 12,
+                    cornerRadius: 8,
                     callbacks: {
                         label: function(context) {
                             const total = context.dataset.data.reduce((a, b) => a + b, 0);
@@ -240,6 +276,10 @@ function criarGraficoFormato(stats) {
                         }
                     }
                 }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true
             }
         }
     });
@@ -277,6 +317,29 @@ function criarGraficoCrescimento() {
         return acumulado;
     });
 
+    // Criar array de cores gradiente para cada barra
+    const coresGradiente = [
+        cores.verde,
+        cores.ciano,
+        cores.azul,
+        cores.roxo,
+        cores.rosa,
+        cores.laranja,
+        cores.amarelo,
+        cores.verdeEscuro
+    ];
+
+    // Gerar cores para cada barra baseado no índice
+    const backgroundColors = dadosAcumulados.map((_, index) => {
+        return coresGradiente[index % coresGradiente.length];
+    });
+
+    const borderColors = dadosAcumulados.map((_, index) => {
+        const cor = coresGradiente[index % coresGradiente.length];
+        // Escurece um pouco a cor para a borda
+        return cor.replace('#', '#') + '99'; // Adiciona transparência
+    });
+
     crescimentoChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -284,10 +347,12 @@ function criarGraficoCrescimento() {
             datasets: [{
                 label: 'Total de Inscritos',
                 data: dadosAcumulados,
-                backgroundColor: cores.verde,
-                borderColor: cores.verdeEscuro,
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
                 borderWidth: 2,
-                borderRadius: 8
+                borderRadius: 10,
+                hoverBackgroundColor: backgroundColors.map(c => c + 'DD'),
+                hoverBorderWidth: 3
             }]
         },
         options: {
@@ -296,9 +361,27 @@ function criarGraficoCrescimento() {
             plugins: {
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 13,
+                            weight: '600'
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    padding: 12,
+                    cornerRadius: 8,
                     callbacks: {
                         label: function(context) {
                             return `Total: ${context.parsed.y} inscritos`;
@@ -310,31 +393,49 @@ function criarGraficoCrescimento() {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1
+                        stepSize: 1,
+                        font: {
+                            size: 11
+                        }
                     },
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
+                        color: 'rgba(0, 0, 0, 0.05)',
+                        drawBorder: false
                     },
                     title: {
                         display: true,
                         text: 'Número de Inscritos',
                         font: {
-                            weight: 'bold'
-                        }
+                            weight: 'bold',
+                            size: 12
+                        },
+                        padding: 10
                     }
                 },
                 x: {
                     grid: {
-                        display: false
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11
+                        }
                     },
                     title: {
                         display: true,
                         text: 'Data',
                         font: {
-                            weight: 'bold'
-                        }
+                            weight: 'bold',
+                            size: 12
+                        },
+                        padding: 10
                     }
                 }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeInOutQuart'
             }
         }
     });
