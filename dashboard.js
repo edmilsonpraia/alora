@@ -176,7 +176,7 @@ function atualizarEstatisticas(stats) {
     document.getElementById('ultimaAtualizacao').textContent = horaAtual;
 }
 
-// Criar gráfico prática sustentabilidade
+// Criar gráfico prática sustentabilidade (DONUT)
 function criarGraficoPratica(stats) {
     const canvas = document.getElementById('praticaSustChart');
     if (!canvas) return;
@@ -200,46 +200,57 @@ function criarGraficoPratica(stats) {
     const backgroundColors = [cores.verde, cores.azul, cores.roxo, cores.laranja];
 
     praticaSustChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'doughnut',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Respostas',
                 data: data,
                 backgroundColor: backgroundColors,
-                borderColor: backgroundColors.map(c => c + '99'),
-                borderWidth: 2,
-                borderRadius: 8
+                borderWidth: 4,
+                borderColor: '#fff',
+                hoverOffset: 15,
+                hoverBorderWidth: 5
             }]
         },
         options: {
-            indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '65%',
             plugins: {
-                legend: { display: false },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        font: { size: 12, weight: '600' },
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
                     padding: 12,
-                    cornerRadius: 8
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return `${context.label}: ${context.parsed} (${percentage}%)`;
+                        }
+                    }
                 }
             },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 1, font: { size: 10 } },
-                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
-                },
-                y: {
-                    ticks: { font: { size: 10 } },
-                    grid: { display: false }
-                }
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1000
             }
         }
     });
 }
 
-// Criar gráfico travão sustentabilidade
+// Criar gráfico travão sustentabilidade (BARRAS HORIZONTAIS)
 function criarGraficoTravao(stats) {
     const canvas = document.getElementById('travaoChart');
     if (!canvas) return;
@@ -270,9 +281,10 @@ function criarGraficoTravao(stats) {
                 label: 'Respostas',
                 data: data,
                 backgroundColor: backgroundColors,
-                borderColor: backgroundColors.map(c => c + '99'),
+                borderColor: backgroundColors.map(c => c + 'CC'),
                 borderWidth: 2,
-                borderRadius: 8
+                borderRadius: 10,
+                barThickness: 40
             }]
         },
         options: {
@@ -282,27 +294,48 @@ function criarGraficoTravao(stats) {
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    padding: 12,
-                    cornerRadius: 8
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
+                    padding: 14,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return `Respostas: ${context.parsed.x}`;
+                        }
+                    }
                 }
             },
             scales: {
                 x: {
                     beginAtZero: true,
-                    ticks: { stepSize: 1, font: { size: 10 } },
-                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    ticks: {
+                        stepSize: 1,
+                        font: { size: 11, weight: '500' },
+                        color: '#666'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.06)',
+                        drawBorder: false
+                    }
                 },
                 y: {
-                    ticks: { font: { size: 10 } },
+                    ticks: {
+                        font: { size: 11, weight: '600' },
+                        color: '#333'
+                    },
                     grid: { display: false }
                 }
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeInOutQuart'
             }
         }
     });
 }
 
-// Criar gráfico emissões angola
+// Criar gráfico emissões angola (PIZZA)
 function criarGraficoEmissoes(stats) {
     const canvas = document.getElementById('emissoesChart');
     if (!canvas) return;
@@ -326,46 +359,56 @@ function criarGraficoEmissoes(stats) {
     const backgroundColors = [cores.verdeEscuro, cores.laranja, cores.azul, cores.rosa];
 
     emissoesChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Respostas',
                 data: data,
                 backgroundColor: backgroundColors,
-                borderColor: backgroundColors.map(c => c + '99'),
-                borderWidth: 2,
-                borderRadius: 8
+                borderWidth: 4,
+                borderColor: '#fff',
+                hoverOffset: 12,
+                hoverBorderWidth: 5
             }]
         },
         options: {
-            indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { display: false },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        font: { size: 12, weight: '600' },
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
                     padding: 12,
-                    cornerRadius: 8
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return `${context.label}: ${context.parsed} (${percentage}%)`;
+                        }
+                    }
                 }
             },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 1, font: { size: 10 } },
-                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
-                },
-                y: {
-                    ticks: { font: { size: 10 } },
-                    grid: { display: false }
-                }
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1000
             }
         }
     });
 }
 
-// Criar gráfico contribui emissões
+// Criar gráfico contribui emissões (BARRAS HORIZONTAIS)
 function criarGraficoContribui(stats) {
     const canvas = document.getElementById('contribuiChart');
     if (!canvas) return;
@@ -396,9 +439,10 @@ function criarGraficoContribui(stats) {
                 label: 'Respostas',
                 data: data,
                 backgroundColor: backgroundColors,
-                borderColor: backgroundColors.map(c => c + '99'),
+                borderColor: backgroundColors.map(c => c + 'CC'),
                 borderWidth: 2,
-                borderRadius: 8
+                borderRadius: 10,
+                barThickness: 40
             }]
         },
         options: {
@@ -408,27 +452,48 @@ function criarGraficoContribui(stats) {
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    padding: 12,
-                    cornerRadius: 8
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
+                    padding: 14,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return `Respostas: ${context.parsed.x}`;
+                        }
+                    }
                 }
             },
             scales: {
                 x: {
                     beginAtZero: true,
-                    ticks: { stepSize: 1, font: { size: 10 } },
-                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    ticks: {
+                        stepSize: 1,
+                        font: { size: 11, weight: '500' },
+                        color: '#666'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.06)',
+                        drawBorder: false
+                    }
                 },
                 y: {
-                    ticks: { font: { size: 10 } },
+                    ticks: {
+                        font: { size: 11, weight: '600' },
+                        color: '#333'
+                    },
                     grid: { display: false }
                 }
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeInOutQuart'
             }
         }
     });
 }
 
-// Criar gráfico futuro empresas
+// Criar gráfico futuro empresas (DONUT)
 function criarGraficoFuturo(stats) {
     const canvas = document.getElementById('futuroChart');
     if (!canvas) return;
@@ -452,40 +517,51 @@ function criarGraficoFuturo(stats) {
     const backgroundColors = [cores.rosa, cores.laranja, cores.azul, cores.verde];
 
     futuroChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'doughnut',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Respostas',
                 data: data,
                 backgroundColor: backgroundColors,
-                borderColor: backgroundColors.map(c => c + '99'),
-                borderWidth: 2,
-                borderRadius: 8
+                borderWidth: 4,
+                borderColor: '#fff',
+                hoverOffset: 15,
+                hoverBorderWidth: 5
             }]
         },
         options: {
-            indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '60%',
             plugins: {
-                legend: { display: false },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        font: { size: 12, weight: '600' },
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
                 tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
                     padding: 12,
-                    cornerRadius: 8
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return `${context.label}: ${context.parsed} (${percentage}%)`;
+                        }
+                    }
                 }
             },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 1, font: { size: 10 } },
-                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
-                },
-                y: {
-                    ticks: { font: { size: 10 } },
-                    grid: { display: false }
-                }
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1000
             }
         }
     });
