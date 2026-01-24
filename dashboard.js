@@ -6,6 +6,7 @@ Chart.defaults.color = '#666';
 
 // Variáveis globais
 let interesseChart, formatoChart, crescimentoChart;
+let praticaSustChart, travaoChart, emissoesChart, contribuiChart, futuroChart;
 let respostas = [];
 
 // Paleta de cores profissional
@@ -28,6 +29,11 @@ function gerarDadosDemonstracao() {
             email: 'joao.silva@exemplo.com',
             interesse: 'Networking',
             formato_participacao: 'Presencial',
+            pratica_sustentabilidade: 'Exigencia_internacional',
+            travao_sustentabilidade: 'Falta_lideranca',
+            emissoes_angola: 'Outras_prioridades',
+            contribui_emissoes: 'Transito_transportes',
+            futuro_empresas: 'Perder_competitividade',
             timestamp: '2026-01-20T10:30:00.000Z',
             isDemoData: true
         },
@@ -36,6 +42,11 @@ function gerarDadosDemonstracao() {
             email: 'maria.santos@exemplo.com',
             interesse: 'Conhecimento',
             formato_participacao: 'Online',
+            pratica_sustentabilidade: 'Conviccao_estrategica',
+            travao_sustentabilidade: 'Falta_consciencia',
+            emissoes_angola: 'Nunca_explicaram',
+            contribui_emissoes: 'Uso_ineficiente',
+            futuro_empresas: 'Sobreviver_limitacoes',
             timestamp: '2026-01-20T11:15:00.000Z',
             isDemoData: true
         },
@@ -44,6 +55,11 @@ function gerarDadosDemonstracao() {
             email: 'pedro.costa@exemplo.com',
             interesse: 'Oportunidades',
             formato_participacao: 'Hibrido',
+            pratica_sustentabilidade: 'Melhora_imagem',
+            travao_sustentabilidade: 'Falta_financiamento',
+            emissoes_angola: 'Problema_outros',
+            contribui_emissoes: 'Agua_eletricidade',
+            futuro_empresas: 'Perder_competitividade',
             timestamp: '2026-01-20T14:20:00.000Z',
             isDemoData: true
         },
@@ -52,6 +68,11 @@ function gerarDadosDemonstracao() {
             email: 'ana.ferreira@exemplo.com',
             interesse: 'Inovacao',
             formato_participacao: 'Presencial',
+            pratica_sustentabilidade: 'Exigencia_internacional',
+            travao_sustentabilidade: 'Falta_confianca',
+            emissoes_angola: 'Nao_pensamos',
+            contribui_emissoes: 'Transito_transportes',
+            futuro_empresas: 'Perder_competitividade',
             timestamp: '2026-01-21T09:45:00.000Z',
             isDemoData: true
         },
@@ -60,6 +81,11 @@ function gerarDadosDemonstracao() {
             email: 'carlos.mendes@exemplo.com',
             interesse: 'Networking',
             formato_participacao: 'Online',
+            pratica_sustentabilidade: 'Nao_prioridade',
+            travao_sustentabilidade: 'Falta_lideranca',
+            emissoes_angola: 'Outras_prioridades',
+            contribui_emissoes: 'Nunca_pensei',
+            futuro_empresas: 'Manter_iguais',
             timestamp: '2026-01-21T16:30:00.000Z',
             isDemoData: true
         },
@@ -68,6 +94,11 @@ function gerarDadosDemonstracao() {
             email: 'sofia.rodrigues@exemplo.com',
             interesse: 'Conhecimento',
             formato_participacao: 'Presencial',
+            pratica_sustentabilidade: 'Conviccao_estrategica',
+            travao_sustentabilidade: 'Falta_consciencia',
+            emissoes_angola: 'Nunca_explicaram',
+            contribui_emissoes: 'Uso_ineficiente',
+            futuro_empresas: 'Sobreviver_limitacoes',
             timestamp: '2026-01-22T08:00:00.000Z',
             isDemoData: true
         },
@@ -76,6 +107,11 @@ function gerarDadosDemonstracao() {
             email: 'miguel.alves@exemplo.com',
             interesse: 'Oportunidades',
             formato_participacao: 'Hibrido',
+            pratica_sustentabilidade: 'Melhora_imagem',
+            travao_sustentabilidade: 'Falta_financiamento',
+            emissoes_angola: 'Problema_outros',
+            contribui_emissoes: 'Agua_eletricidade',
+            futuro_empresas: 'Perder_competitividade',
             timestamp: '2026-01-22T13:15:00.000Z',
             isDemoData: true
         },
@@ -84,6 +120,11 @@ function gerarDadosDemonstracao() {
             email: 'teresa.martins@exemplo.com',
             interesse: 'Inovacao',
             formato_participacao: 'Online',
+            pratica_sustentabilidade: 'Exigencia_internacional',
+            travao_sustentabilidade: 'Falta_lideranca',
+            emissoes_angola: 'Nao_pensamos',
+            contribui_emissoes: 'Transito_transportes',
+            futuro_empresas: 'Perder_competitividade',
             timestamp: '2026-01-22T15:45:00.000Z',
             isDemoData: true
         }
@@ -112,7 +153,12 @@ function processarDados() {
     const stats = {
         total: respostas.length,
         interesse: {},
-        formato: {}
+        formato: {},
+        pratica_sustentabilidade: {},
+        travao_sustentabilidade: {},
+        emissoes_angola: {},
+        contribui_emissoes: {},
+        futuro_empresas: {}
     };
 
     respostas.forEach(resposta => {
@@ -123,6 +169,26 @@ function processarDados() {
         // Contar formatos
         const formato = resposta.formato_participacao || 'Não especificado';
         stats.formato[formato] = (stats.formato[formato] || 0) + 1;
+
+        // Contar prática sustentabilidade
+        const pratica = resposta.pratica_sustentabilidade || 'Não especificado';
+        stats.pratica_sustentabilidade[pratica] = (stats.pratica_sustentabilidade[pratica] || 0) + 1;
+
+        // Contar travão sustentabilidade
+        const travao = resposta.travao_sustentabilidade || 'Não especificado';
+        stats.travao_sustentabilidade[travao] = (stats.travao_sustentabilidade[travao] || 0) + 1;
+
+        // Contar emissões Angola
+        const emissoes = resposta.emissoes_angola || 'Não especificado';
+        stats.emissoes_angola[emissoes] = (stats.emissoes_angola[emissoes] || 0) + 1;
+
+        // Contar contribui emissões
+        const contribui = resposta.contribui_emissoes || 'Não especificado';
+        stats.contribui_emissoes[contribui] = (stats.contribui_emissoes[contribui] || 0) + 1;
+
+        // Contar futuro empresas
+        const futuro = resposta.futuro_empresas || 'Não especificado';
+        stats.futuro_empresas[futuro] = (stats.futuro_empresas[futuro] || 0) + 1;
     });
 
     return stats;
@@ -437,6 +503,321 @@ function criarGraficoCrescimento() {
             animation: {
                 duration: 1500,
                 easing: 'easeInOutQuart'
+            }
+        }
+    });
+}
+
+// Criar gráfico prática sustentabilidade
+function criarGraficoPratica(stats) {
+    const canvas = document.getElementById('praticaSustChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    if (praticaSustChart) {
+        praticaSustChart.destroy();
+    }
+
+    const labels = Object.keys(stats.pratica_sustentabilidade).map(key => {
+        const map = {
+            'Conviccao_estrategica': 'Convicção estratégica',
+            'Exigencia_internacional': 'Exigência internacional',
+            'Melhora_imagem': 'Melhora imagem',
+            'Nao_prioridade': 'Não é prioridade'
+        };
+        return map[key] || key;
+    });
+    const data = Object.values(stats.pratica_sustentabilidade);
+    const backgroundColors = [cores.verde, cores.azul, cores.roxo, cores.laranja];
+
+    praticaSustChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Respostas',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors.map(c => c + '99'),
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, font: { size: 10 } },
+                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                },
+                y: {
+                    ticks: { font: { size: 10 } },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}
+
+// Criar gráfico travão sustentabilidade
+function criarGraficoTravao(stats) {
+    const canvas = document.getElementById('travaoChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    if (travaoChart) {
+        travaoChart.destroy();
+    }
+
+    const labels = Object.keys(stats.travao_sustentabilidade).map(key => {
+        const map = {
+            'Falta_lideranca': 'Falta liderança',
+            'Falta_consciencia': 'Falta consciência',
+            'Falta_financiamento': 'Falta financiamento',
+            'Falta_confianca': 'Falta confiança'
+        };
+        return map[key] || key;
+    });
+    const data = Object.values(stats.travao_sustentabilidade);
+    const backgroundColors = [cores.rosa, cores.ciano, cores.amarelo, cores.roxo];
+
+    travaoChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Respostas',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors.map(c => c + '99'),
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, font: { size: 10 } },
+                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                },
+                y: {
+                    ticks: { font: { size: 10 } },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}
+
+// Criar gráfico emissões angola
+function criarGraficoEmissoes(stats) {
+    const canvas = document.getElementById('emissoesChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    if (emissoesChart) {
+        emissoesChart.destroy();
+    }
+
+    const labels = Object.keys(stats.emissoes_angola).map(key => {
+        const map = {
+            'Outras_prioridades': 'Outras prioridades',
+            'Problema_outros': 'Problema dos outros',
+            'Nunca_explicaram': 'Nunca explicaram',
+            'Nao_pensamos': 'Não pensamos nisso'
+        };
+        return map[key] || key;
+    });
+    const data = Object.values(stats.emissoes_angola);
+    const backgroundColors = [cores.verdeEscuro, cores.laranja, cores.azul, cores.rosa];
+
+    emissoesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Respostas',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors.map(c => c + '99'),
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, font: { size: 10 } },
+                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                },
+                y: {
+                    ticks: { font: { size: 10 } },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}
+
+// Criar gráfico contribui emissões
+function criarGraficoContribui(stats) {
+    const canvas = document.getElementById('contribuiChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    if (contribuiChart) {
+        contribuiChart.destroy();
+    }
+
+    const labels = Object.keys(stats.contribui_emissoes).map(key => {
+        const map = {
+            'Transito_transportes': 'Trânsito/transportes',
+            'Uso_ineficiente': 'Uso ineficiente',
+            'Agua_eletricidade': 'Água/eletricidade',
+            'Nunca_pensei': 'Nunca pensei'
+        };
+        return map[key] || key;
+    });
+    const data = Object.values(stats.contribui_emissoes);
+    const backgroundColors = [cores.ciano, cores.roxo, cores.verde, cores.amarelo];
+
+    contribuiChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Respostas',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors.map(c => c + '99'),
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, font: { size: 10 } },
+                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                },
+                y: {
+                    ticks: { font: { size: 10 } },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}
+
+// Criar gráfico futuro empresas
+function criarGraficoFuturo(stats) {
+    const canvas = document.getElementById('futuroChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    if (futuroChart) {
+        futuroChart.destroy();
+    }
+
+    const labels = Object.keys(stats.futuro_empresas).map(key => {
+        const map = {
+            'Perder_competitividade': 'Perder competitividade',
+            'Sobreviver_limitacoes': 'Sobreviver com limitações',
+            'Manter_iguais': 'Manter-se iguais',
+            'Sem_impactos': 'Sem impactos'
+        };
+        return map[key] || key;
+    });
+    const data = Object.values(stats.futuro_empresas);
+    const backgroundColors = [cores.rosa, cores.laranja, cores.azul, cores.verde];
+
+    futuroChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Respostas',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors.map(c => c + '99'),
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, font: { size: 10 } },
+                    grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                },
+                y: {
+                    ticks: { font: { size: 10 } },
+                    grid: { display: false }
+                }
             }
         }
     });
