@@ -601,15 +601,22 @@ function criarGraficoCrescimento() {
         }
     });
 
+    // Calcular valores acumulados (crescimento de inscritos)
+    let acumulado = 0;
+    const dadosAcumulados = horasEvento.map(hora => {
+        acumulado += respostasPorHora[hora];
+        return acumulado;
+    });
+
     const labels = horasEvento;
-    const data = horasEvento.map(hora => respostasPorHora[hora]);
+    const data = dadosAcumulados;
 
     crescimentoChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Número de Respostas',
+                label: 'Total de Inscritos',
                 data: data,
                 backgroundColor: 'rgba(38, 166, 154, 0.1)',
                 borderColor: cores.verde,
@@ -648,7 +655,7 @@ function criarGraficoCrescimento() {
                     cornerRadius: 8,
                     callbacks: {
                         label: function(context) {
-                            return `Respostas: ${context.parsed.y}`;
+                            return `Total de Inscritos: ${context.parsed.y}`;
                         }
                     }
                 }
@@ -667,7 +674,7 @@ function criarGraficoCrescimento() {
                     },
                     title: {
                         display: true,
-                        text: 'Número de Pessoas',
+                        text: 'Total de Inscritos',
                         font: { size: 12, weight: '600' },
                         color: '#333'
                     }
