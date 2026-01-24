@@ -456,6 +456,33 @@ document.addEventListener('DOMContentLoaded', () => {
         exportExcelBtn.addEventListener('click', exportarCSV);
     }
 
+    // Botão de toggle para ocultar/mostrar participantes (dados confidenciais)
+    const toggleParticipantesBtn = document.getElementById('toggleParticipantesBtn');
+    const participantesWrapper = document.getElementById('participantesWrapper');
+
+    if (toggleParticipantesBtn && participantesWrapper) {
+        // Carregar preferência salva
+        const isHidden = localStorage.getItem('participantesHidden') === 'true';
+        if (isHidden) {
+            participantesWrapper.style.display = 'none';
+            toggleParticipantesBtn.innerHTML = '<i class="fas fa-eye"></i> Mostrar Participantes';
+        }
+
+        toggleParticipantesBtn.addEventListener('click', () => {
+            const currentlyHidden = participantesWrapper.style.display === 'none';
+
+            if (currentlyHidden) {
+                participantesWrapper.style.display = 'block';
+                toggleParticipantesBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Ocultar Participantes';
+                localStorage.setItem('participantesHidden', 'false');
+            } else {
+                participantesWrapper.style.display = 'none';
+                toggleParticipantesBtn.innerHTML = '<i class="fas fa-eye"></i> Mostrar Participantes';
+                localStorage.setItem('participantesHidden', 'true');
+            }
+        });
+    }
+
     // Atualização automática a cada 3 segundos para refletir mudanças em tempo real
     setInterval(atualizarDashboard, 3000);
 });

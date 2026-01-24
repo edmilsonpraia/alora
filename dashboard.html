@@ -84,9 +84,12 @@
                 <div class="chart-container full-width">
                     <div class="chart-header">
                         <h2><i class="fas fa-envelope"></i> Participantes Registados</h2>
-                        <p class="chart-description">Lista de e-mails dos participantes</p>
+                        <p class="chart-description">Lista de e-mails dos participantes (dados confidenciais)</p>
+                        <button id="toggleParticipantesBtn" class="btn-toggle-participants">
+                            <i class="fas fa-eye-slash"></i> Ocultar Participantes
+                        </button>
                     </div>
-                    <div class="table-wrapper">
+                    <div class="table-wrapper" id="participantesWrapper">
                         <table id="participantesTable">
                             <thead>
                                 <tr>

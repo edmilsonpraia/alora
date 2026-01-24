@@ -198,6 +198,31 @@ body::before {
     color: #666;
 }
 
+.btn-toggle-participants {
+    background: linear-gradient(135deg, #FF7043 0%, #EC407A 100%);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.btn-toggle-participants:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 112, 67, 0.3);
+}
+
+.btn-toggle-participants i {
+    font-size: 1em;
+}
+
 .chart-wrapper {
     position: relative;
     height: 350px;
