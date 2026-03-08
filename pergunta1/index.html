@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pergunta 1 - 2º Fórum Nacional de Negócios Sustentáveis</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .survey-only-wrapper {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 40px 50px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            min-height: 400px;
+        }
+        .question-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%);
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .question-icon {
+            width: 70px; height: 70px; margin: 0 auto 25px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: white;
+            background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%);
+            box-shadow: 0 4px 15px rgba(92, 107, 192, 0.4);
+        }
+        .form-group { margin-bottom: 30px; }
+        .form-group > label {
+            display: block; font-size: 1.1rem; font-weight: 700; color: #2c3e50;
+            margin-bottom: 20px; line-height: 1.5; text-align: center;
+        }
+        .form-group input[type="text"] {
+            width: 100%; padding: 14px 18px; border: 2px solid #e0e0e0; border-radius: 10px;
+            font-size: 1rem; transition: all 0.3s ease; background: #fafafa; box-sizing: border-box;
+        }
+        .form-group input[type="text"]:focus {
+            border-color: #5C6BC0; background: #fff; outline: none;
+            box-shadow: 0 0 0 4px rgba(92, 107, 192, 0.1);
+        }
+        .radio-group { display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: 0 auto; }
+        .radio-group label {
+            display: flex; align-items: flex-start; padding: 16px 20px; background: #fafafa;
+            border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer;
+            transition: all 0.3s ease; font-weight: 400; font-size: 0.95rem;
+        }
+        .radio-group label:hover { background: #e8eaf6; border-color: #5C6BC0; transform: translateX(5px); }
+        .radio-group input[type="radio"] {
+            margin-right: 14px; margin-top: 3px; width: 20px; height: 20px;
+            cursor: pointer; flex-shrink: 0; accent-color: #5C6BC0;
+        }
+        .radio-group label:has(input[type="radio"]:checked) {
+            background: #e8eaf6; border-color: #5C6BC0; font-weight: 600;
+            box-shadow: 0 2px 8px rgba(92, 107, 192, 0.2);
+        }
+        .btn-submit {
+            display: block; width: 100%; max-width: 400px; margin: 30px auto 0;
+            padding: 14px 30px; border: none; border-radius: 10px; font-size: 1rem;
+            font-weight: 700; cursor: pointer;
+            background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%); color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(92, 107, 192, 0.4); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .error-message { display: none; color: #e74c3c; font-size: 0.85rem; margin-top: 8px; text-align: center; }
+        .success-message {
+            display: none; padding: 20px; background: #d4edda; border: 2px solid #28a745;
+            border-radius: 10px; color: #155724; font-size: 1rem; text-align: center; margin-top: 20px;
+        }
+        .name-section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #e0e0e0; }
+        /* Navegação */
+        .nav-links {
+            display: flex; justify-content: center; gap: 12px; margin-top: 30px;
+            padding-top: 20px; border-top: 2px solid #e0e0e0; flex-wrap: wrap;
+        }
+        .nav-links a {
+            padding: 10px 22px; border-radius: 8px; text-decoration: none;
+            font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-p { background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%); color: #fff; }
+        .btn-p:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(92, 107, 192, 0.4); }
+        .btn-s { background: #e0e0e0; color: #555; }
+        .btn-s:hover { background: #d0d0d0; }
+        @media (max-width: 768px) {
+            .survey-only-wrapper { margin: 10px; padding: 30px 20px; }
+            .question-icon { width: 60px; height: 60px; font-size: 1.7rem; }
+            .form-group > label { font-size: 1rem; }
+            .radio-group label { padding: 12px 14px; font-size: 0.88rem; }
+        }
+        @media (max-width: 480px) {
+            .survey-only-wrapper { margin: 5px; padding: 25px 15px; }
+            .radio-group label { font-size: 0.82rem; padding: 10px 12px; }
+            .nav-links { flex-direction: column; }
+            .nav-links a { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="event-header">
+        <div class="header-content">
+            <img src="../logotipo.png" alt="Logo Allora" class="logo">
+            <h1>2º Fórum Nacional de Negócios Sustentáveis</h1>
+            <p class="subtitle">"Desenhando um futuro sustentável" - 10 de Março de 2026</p>
+        </div>
+    </header>
+
+    <div class="survey-only-wrapper">
+        <div style="text-align: center;">
+            <span class="question-badge">Pergunta 1 de 3</span>
+        </div>
+        <div class="question-icon">
+            <i class="fas fa-history"></i>
+        </div>
+
+        <form id="surveyForm" novalidate>
+            <div class="name-section">
+                <div class="form-group">
+                    <label for="nome">Qual é o seu nome?</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite o seu nome completo" required>
+                    <small class="error-message" id="nomeError">Por favor, insira o seu nome.</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Na sua opinião que factores do passado influenciaram a forma como hoje pensamos sustentabilidade e desenvolvimento económico?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="factores_passado" value="Reconstrucao_crescimento" required> A reconstrução nacional e crescimento económico acelerado</label>
+                    <label><input type="radio" name="factores_passado" value="Crises_petroleo"> As crises económicas e volatilidade do petróleo</label>
+                    <label><input type="radio" name="factores_passado" value="Consciencia_ambiental"> A crescente consciência ambiental global</label>
+                    <label><input type="radio" name="factores_passado" value="Pressao_ESG"> A pressão internacional por padrões ESG e transição energética</label>
+                </div>
+                <small class="error-message" id="perguntaError">Por favor, selecione uma opção.</small>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i> Enviar Resposta
+            </button>
+
+            <div id="successMessage" class="success-message">
+                <strong>Muito obrigado!</strong> A sua resposta à Pergunta 1 foi registada com sucesso.
+            </div>
+        </form>
+
+        <div class="nav-links">
+            <a href="qrcode.html" class="btn-p"><i class="fas fa-qrcode"></i> QR Code</a>
+            <a href="dashboard.html" class="btn-p"><i class="fas fa-chart-pie"></i> Dashboard</a>
+            <a href="../admin.html" class="btn-s"><i class="fas fa-cog"></i> Admin</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('surveyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('nome').value.trim();
+            const resposta = document.querySelector('input[name="factores_passado"]:checked');
+            let valid = true;
+
+            if (!nome) {
+                document.getElementById('nomeError').style.display = 'block';
+                document.getElementById('nome').classList.add('invalid');
+                valid = false;
+            } else {
+                document.getElementById('nomeError').style.display = 'none';
+                document.getElementById('nome').classList.remove('invalid');
+            }
+            if (!resposta) {
+                document.getElementById('perguntaError').style.display = 'block';
+                valid = false;
+            } else {
+                document.getElementById('perguntaError').style.display = 'none';
+            }
+            if (!valid) return;
+
+            const data = { nome, factores_passado: resposta.value, pergunta: 1, timestamp: new Date().toISOString() };
+            const respostas = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
+            respostas.push(data);
+            localStorage.setItem('surveyResponses', JSON.stringify(respostas));
+            const submissions = JSON.parse(localStorage.getItem('surveySubmissions') || '[]');
+            submissions.push(data);
+            localStorage.setItem('surveySubmissions', JSON.stringify(submissions));
+
+            document.getElementById('successMessage').style.display = 'block';
+            this.querySelector('.btn-submit').disabled = true;
+            this.querySelector('.btn-submit').textContent = 'Resposta Enviada';
+            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    </script>
+</body>
+</html>

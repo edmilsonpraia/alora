@@ -19,81 +19,72 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Evento de submissão do formulário
-    surveyForm.addEventListener('submit', function (event) {
-        // Previne o comportamento padrão de submissão do formulário
-        event.preventDefault();
+    // Evento de submissão do formulário (para páginas individuais de pergunta)
+    if (surveyForm) {
+        surveyForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            clearErrors();
 
-        // Limpa erros anteriores
-        clearErrors();
+            if (!validateForm()) {
+                return;
+            }
 
-        // Validação profissional
-        if (!validateForm()) {
-            return; // Interrompe se a validação falhar
-        }
+            const formData = new FormData(surveyForm);
+            const data = Object.fromEntries(formData.entries());
 
-        // Coleta os dados do formulário
-        const formData = new FormData(surveyForm);
-        const data = Object.fromEntries(formData.entries());
+            console.log('Dados do formulário:', data);
+            saveSubmission(data);
 
-        // Exibe os dados no console (simulando o envio para um servidor)
-        console.log('Dados do formulário:', data);
+            if (successMessage) {
+                successMessage.style.display = 'block';
+                surveyForm.parentElement.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
 
-        // Salva os dados no localStorage
-        saveSubmission(data);
+            surveyForm.reset();
 
-        // Exibe a mensagem de sucesso
-        successMessage.style.display = 'block'; // Mostra a mensagem de sucesso
-        
-        // Rola a página para o topo para ver a mensagem
-        surveyForm.parentElement.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+            setTimeout(() => {
+                if (successMessage) successMessage.style.display = 'none';
+            }, 5000);
+
+            if (typeof atualizarDashboard === 'function') {
+                setTimeout(() => atualizarDashboard(), 500);
+            }
         });
+    }
 
-        // Limpa o formulário após o envio
-        surveyForm.reset();
-
-        // Esconde a mensagem de sucesso após alguns segundos
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 5000);
-
-        // Atualiza o dashboard após envio bem-sucedido
-        if (typeof atualizarDashboard === 'function') {
-            setTimeout(() => atualizarDashboard(), 500);
-        }
-    });
-
-    downloadCsvBtn.addEventListener('click', generateCSV);
-    downloadReportBtn.addEventListener('click', generateReport);
+    if (downloadCsvBtn) downloadCsvBtn.addEventListener('click', generateCSV);
+    if (downloadReportBtn) downloadReportBtn.addEventListener('click', generateReport);
 
     function validateForm() {
         let isValid = true;
-        const requiredFields = ['nome']; // Apenas nome é obrigatório
+        const requiredFields = ['nome'];
 
         requiredFields.forEach(fieldId => {
             const input = document.getElementById(fieldId);
-            if (!input.value.trim()) {
+            if (input && !input.value.trim()) {
                 showError(input, 'Este campo é obrigatório.');
                 isValid = false;
             }
         });
 
-        // Validar que pelo menos uma resposta de cada questão foi selecionada
-        const radioGroups = ['pratica_sustentabilidade', 'travao_sustentabilidade', 'emissoes_angola', 'contribui_emissoes', 'futuro_empresas'];
+        // Validar radio groups das novas perguntas
+        const radioGroups = ['factores_passado', 'obstaculo_sustentabilidade', 'prioridade_estrategica'];
         radioGroups.forEach(groupName => {
             const radios = document.getElementsByName(groupName);
-            const checked = Array.from(radios).some(radio => radio.checked);
-            if (!checked) {
-                // Encontra o label da questão
-                const radioGroup = radios[0].closest('.form-group');
-                const label = radioGroup.querySelector('label');
-                if (label) {
-                    label.style.color = '#e74c3c';
-                    setTimeout(() => { label.style.color = ''; }, 3000);
+            if (radios.length > 0) {
+                const checked = Array.from(radios).some(radio => radio.checked);
+                if (!checked) {
+                    const radioGroup = radios[0].closest('.form-group');
+                    const label = radioGroup.querySelector('label');
+                    if (label) {
+                        label.style.color = '#e74c3c';
+                        setTimeout(() => { label.style.color = ''; }, 3000);
+                    }
+                    isValid = false;
                 }
-                isValid = false;
             }
         });
 
@@ -103,10 +94,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function showError(input, message) {
         const formGroup = input.parentElement;
         const errorElement = formGroup.querySelector('.error-message');
-        
+
         input.classList.add('invalid');
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
     }
 
     function clearErrors() {
@@ -125,20 +118,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function saveSubmission(data) {
         const submissions = getSubmissions();
-
-        // Adiciona timestamp
         data.timestamp = new Date().toISOString();
-
         submissions.push(data);
         localStorage.setItem('surveySubmissions', JSON.stringify(submissions));
-
-        // Também salva no formato esperado pelo dashboard
         localStorage.setItem('surveyResponses', JSON.stringify(submissions));
     }
 
     function renderAdminPanel() {
         const submissions = getSubmissions();
-        submissionCountEl.textContent = submissions.length;
+        if (submissionCountEl) submissionCountEl.textContent = submissions.length;
     }
 
     function generateCSV() {
@@ -175,20 +163,16 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // --- Análise de Dados ---
         const stats = {};
-        const textQuestions = ['sugestao_orador', 'sugestao_desafio', 'sugestao_adicional'];
         submissions.forEach(sub => {
             for (const key in sub) {
-                if (textQuestions.includes(key) || !sub[key]) continue;
-
+                if (!sub[key] || key === 'timestamp' || key === 'nome') continue;
                 if (!stats[key]) stats[key] = {};
                 const value = sub[key];
                 stats[key][value] = (stats[key][value] || 0) + 1;
             }
         });
 
-        // --- Geração do HTML do Relatório ---
         let reportHTML = `
             <!DOCTYPE html><html lang="pt"><head><title>Relatório Profissional</title>
             <style>
@@ -206,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function () {
             <p>Total de Respostas: <strong>${submissions.length}</strong></p>
         `;
 
-        // Seção de Estatísticas
         reportHTML += '<h2>Resumo das Respostas</h2>';
         for (const key in stats) {
             reportHTML += `<div class="stats-section"><h4>${key.replace(/_/g, ' ')}</h4><ul>`;
@@ -217,7 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
             reportHTML += '</ul></div>';
         }
 
-        // Seção de Tabela Completa
         reportHTML += '<h2>Dados Completos</h2><table><thead><tr>';
         const headers = Object.keys(submissions[0]);
         headers.forEach(h => reportHTML += `<th>${h}</th>`);
@@ -229,7 +211,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         reportHTML += '</tbody></table></body></html>';
 
-        // Abrir em nova aba
         const reportWindow = window.open('', '_blank');
         reportWindow.document.write(reportHTML);
         reportWindow.document.close();

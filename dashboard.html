@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .btn-toggle-section {
+            background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .btn-toggle-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(96, 125, 139, 0.3);
+        }
+        .btn-toggle-section.active {
+            background: linear-gradient(135deg, #26A69A 0%, #00897B 100%);
+        }
+        .visibility-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .section-hidden { display: none !important; }
+    </style>
 </head>
 <body>
 
@@ -49,8 +80,27 @@
                 </div>
             </section>
 
+            <!-- Controlos de Visibilidade -->
+            <section class="visibility-controls">
+                <button class="btn-toggle-section active" data-target="growthSection" id="toggleGrowth">
+                    <i class="fas fa-chart-line"></i> Tendência
+                </button>
+                <button class="btn-toggle-section active" data-target="pergunta1Section" id="toggleP1">
+                    <i class="fas fa-history"></i> Pergunta 1
+                </button>
+                <button class="btn-toggle-section active" data-target="pergunta2Section" id="toggleP2">
+                    <i class="fas fa-exclamation-triangle"></i> Pergunta 2
+                </button>
+                <button class="btn-toggle-section active" data-target="pergunta3Section" id="toggleP3">
+                    <i class="fas fa-bullseye"></i> Pergunta 3
+                </button>
+                <button class="btn-toggle-section active" data-target="participantesSection" id="toggleParticipantes">
+                    <i class="fas fa-users"></i> Participantes
+                </button>
+            </section>
+
             <!-- Gráfico de Crescimento -->
-            <section class="growth-section">
+            <section class="growth-section" id="growthSection">
                 <div class="chart-container full-width">
                     <div class="chart-header">
                         <h2><i class="fas fa-chart-line"></i> Tendência de Participação</h2>
@@ -62,65 +112,42 @@
                 </div>
             </section>
 
-            <!-- Gráficos -->
+            <!-- Gráficos das Perguntas -->
             <section class="charts-section">
-                <div class="chart-container">
+                <div class="chart-container" id="pergunta1Section">
                     <div class="chart-header">
-                        <h2><i class="fas fa-leaf"></i> Prática da Sustentabilidade</h2>
-                        <p class="chart-description">Por que a sustentabilidade é praticada em Angola</p>
+                        <h2><i class="fas fa-history"></i> Pergunta 1 - Factores do Passado</h2>
+                        <p class="chart-description">Factores que influenciaram o pensamento sobre sustentabilidade</p>
                     </div>
                     <div class="chart-wrapper">
-                        <canvas id="praticaSustChart"></canvas>
+                        <canvas id="factoresChart"></canvas>
                     </div>
                 </div>
 
-                <div class="chart-container">
+                <div class="chart-container" id="pergunta2Section">
                     <div class="chart-header">
-                        <h2><i class="fas fa-exclamation-triangle"></i> Maior Travão</h2>
-                        <p class="chart-description">Principal obstáculo para a sustentabilidade</p>
+                        <h2><i class="fas fa-exclamation-triangle"></i> Pergunta 2 - Maior Obstáculo</h2>
+                        <p class="chart-description">Principal obstáculo para práticas sustentáveis em Angola</p>
                     </div>
                     <div class="chart-wrapper">
-                        <canvas id="travaoChart"></canvas>
+                        <canvas id="obstaculoChart"></canvas>
                     </div>
                 </div>
 
-                <div class="chart-container">
+                <div class="chart-container" id="pergunta3Section">
                     <div class="chart-header">
-                        <h2><i class="fas fa-smog"></i> Percepção sobre Emissões</h2>
-                        <p class="chart-description">Por que não ligávamos às emissões</p>
+                        <h2><i class="fas fa-bullseye"></i> Pergunta 3 - Prioridade Estratégica</h2>
+                        <p class="chart-description">Prioridade para Angola ser referência em negócios sustentáveis</p>
                     </div>
                     <div class="chart-wrapper">
-                        <canvas id="emissoesChart"></canvas>
+                        <canvas id="prioridadeChart"></canvas>
                     </div>
                 </div>
 
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <h2><i class="fas fa-car"></i> Contribuição para Emissões</h2>
-                        <p class="chart-description">O que mais contribui para emissões no dia a dia</p>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="contribuiChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <h2><i class="fas fa-building"></i> Futuro das Empresas</h2>
-                        <p class="chart-description">Empresas sem ESG daqui a 5 anos</p>
-                    </div>
-                    <div class="chart-wrapper">
-                        <canvas id="futuroChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-container full-width">
+                <div class="chart-container full-width" id="participantesSection">
                     <div class="chart-header">
                         <h2><i class="fas fa-users"></i> Participantes Registados</h2>
                         <p class="chart-description">Lista dos participantes do inquérito</p>
-                        <button id="toggleParticipantesBtn" class="btn-toggle-participants">
-                            <i class="fas fa-eye-slash"></i> Ocultar Participantes
-                        </button>
                     </div>
                     <div class="table-wrapper" id="participantesWrapper">
                         <table id="participantesTable">
@@ -128,11 +155,12 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nome</th>
+                                    <th>Pergunta</th>
                                 </tr>
                             </thead>
                             <tbody id="participantesBody">
                                 <tr>
-                                    <td colspan="2" class="empty-state">Nenhuma resposta registada ainda.</td>
+                                    <td colspan="3" class="empty-state">Nenhuma resposta registada ainda.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -156,6 +184,7 @@
         </footer>
     </div>
 
+    <script src="perguntas-config.js"></script>
     <script src="dashboard.js"></script>
 </body>
 </html>

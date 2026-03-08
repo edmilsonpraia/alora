@@ -1,11 +1,11 @@
-// Dashboard JavaScript - Gráficos e Visualizações
+// Dashboard JavaScript - Gráficos e Visualizações (Novas 3 Perguntas)
+// Lê automaticamente da configuração em perguntas-config.js
 
-// Configuração global dos gráficos
 Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 Chart.defaults.color = '#666';
 
 // Variáveis globais
-let praticaSustChart, travaoChart, emissoesChart, contribuiChart, futuroChart, crescimentoChart;
+let factoresChart, obstaculoChart, prioridadeChart, crescimentoChart;
 let respostas = [];
 
 // Paleta de cores profissional
@@ -20,103 +20,106 @@ const cores = {
     ciano: '#26C6DA'
 };
 
-// Dados de demonstração permanentes (aparecem sempre)
+// Mapeamento de valores para labels legíveis (gerado a partir do config)
+function gerarLabelMap() {
+    const map = {};
+    if (typeof PERGUNTAS_CONFIG !== 'undefined') {
+        PERGUNTAS_CONFIG.forEach(pergunta => {
+            pergunta.opcoes.forEach(opcao => {
+                map[opcao.valor] = opcao.texto;
+            });
+        });
+    }
+    return map;
+}
+
+// Dados de demonstração para as novas perguntas
 function gerarDadosDemonstracao() {
     return [
         {
             nome: 'João Silva',
-            pratica_sustentabilidade: 'Exigencia_internacional',
-            travao_sustentabilidade: 'Falta_lideranca',
-            emissoes_angola: 'Outras_prioridades',
-            contribui_emissoes: 'Transito_transportes',
-            futuro_empresas: 'Perder_competitividade',
-            timestamp: '2026-01-20T10:30:00.000Z',
+            factores_passado: 'Crises_petroleo',
+            obstaculo_sustentabilidade: 'Falta_financiamento_verde',
+            prioridade_estrategica: 'Incentivos_fiscais',
+            pergunta: 0,
+            timestamp: '2026-03-10T10:30:00.000Z',
             isDemoData: true
         },
         {
             nome: 'Maria Santos',
-            pratica_sustentabilidade: 'Conviccao_estrategica',
-            travao_sustentabilidade: 'Falta_consciencia',
-            emissoes_angola: 'Nunca_explicaram',
-            contribui_emissoes: 'Uso_ineficiente',
-            futuro_empresas: 'Sobreviver_limitacoes',
-            timestamp: '2026-01-20T11:15:00.000Z',
+            factores_passado: 'Consciencia_ambiental',
+            obstaculo_sustentabilidade: 'Falta_conhecimento',
+            prioridade_estrategica: 'Capital_humano',
+            pergunta: 0,
+            timestamp: '2026-03-10T11:15:00.000Z',
             isDemoData: true
         },
         {
             nome: 'Pedro Costa',
-            pratica_sustentabilidade: 'Melhora_imagem',
-            travao_sustentabilidade: 'Falta_financiamento',
-            emissoes_angola: 'Problema_outros',
-            contribui_emissoes: 'Agua_eletricidade',
-            futuro_empresas: 'Perder_competitividade',
-            timestamp: '2026-01-20T14:20:00.000Z',
+            factores_passado: 'Pressao_ESG',
+            obstaculo_sustentabilidade: 'Falta_incentivos',
+            prioridade_estrategica: 'Inovacao_tecnologia',
+            pergunta: 0,
+            timestamp: '2026-03-10T14:20:00.000Z',
             isDemoData: true
         },
         {
             nome: 'Ana Ferreira',
-            pratica_sustentabilidade: 'Exigencia_internacional',
-            travao_sustentabilidade: 'Falta_confianca',
-            emissoes_angola: 'Nao_pensamos',
-            contribui_emissoes: 'Transito_transportes',
-            futuro_empresas: 'Perder_competitividade',
-            timestamp: '2026-01-21T09:45:00.000Z',
+            factores_passado: 'Reconstrucao_crescimento',
+            obstaculo_sustentabilidade: 'Sustentabilidade_custo',
+            prioridade_estrategica: 'Parcerias_internacionais',
+            pergunta: 0,
+            timestamp: '2026-03-10T09:45:00.000Z',
             isDemoData: true
         },
         {
             nome: 'Carlos Mendes',
-            pratica_sustentabilidade: 'Nao_prioridade',
-            travao_sustentabilidade: 'Falta_lideranca',
-            emissoes_angola: 'Outras_prioridades',
-            contribui_emissoes: 'Nunca_pensei',
-            futuro_empresas: 'Manter_iguais',
-            timestamp: '2026-01-21T16:30:00.000Z',
+            factores_passado: 'Crises_petroleo',
+            obstaculo_sustentabilidade: 'Falta_financiamento_verde',
+            prioridade_estrategica: 'Incentivos_fiscais',
+            pergunta: 0,
+            timestamp: '2026-03-10T16:30:00.000Z',
             isDemoData: true
         },
         {
             nome: 'Sofia Rodrigues',
-            pratica_sustentabilidade: 'Conviccao_estrategica',
-            travao_sustentabilidade: 'Falta_consciencia',
-            emissoes_angola: 'Nunca_explicaram',
-            contribui_emissoes: 'Uso_ineficiente',
-            futuro_empresas: 'Sobreviver_limitacoes',
-            timestamp: '2026-01-22T08:00:00.000Z',
+            factores_passado: 'Consciencia_ambiental',
+            obstaculo_sustentabilidade: 'Falta_conhecimento',
+            prioridade_estrategica: 'Capital_humano',
+            pergunta: 0,
+            timestamp: '2026-03-10T08:00:00.000Z',
             isDemoData: true
         },
         {
             nome: 'Miguel Alves',
-            pratica_sustentabilidade: 'Melhora_imagem',
-            travao_sustentabilidade: 'Falta_financiamento',
-            emissoes_angola: 'Problema_outros',
-            contribui_emissoes: 'Agua_eletricidade',
-            futuro_empresas: 'Perder_competitividade',
-            timestamp: '2026-01-22T13:15:00.000Z',
+            factores_passado: 'Pressao_ESG',
+            obstaculo_sustentabilidade: 'Falta_incentivos',
+            prioridade_estrategica: 'Inovacao_tecnologia',
+            pergunta: 0,
+            timestamp: '2026-03-10T13:15:00.000Z',
             isDemoData: true
         },
         {
             nome: 'Teresa Martins',
-            pratica_sustentabilidade: 'Exigencia_internacional',
-            travao_sustentabilidade: 'Falta_lideranca',
-            emissoes_angola: 'Nao_pensamos',
-            contribui_emissoes: 'Transito_transportes',
-            futuro_empresas: 'Perder_competitividade',
-            timestamp: '2026-01-22T15:45:00.000Z',
+            factores_passado: 'Reconstrucao_crescimento',
+            obstaculo_sustentabilidade: 'Sustentabilidade_custo',
+            prioridade_estrategica: 'Parcerias_internacionais',
+            pergunta: 0,
+            timestamp: '2026-03-10T15:45:00.000Z',
             isDemoData: true
         }
     ];
 }
 
-// Carregar dados do localStorage e mesclar com dados de demonstração
+// Carregar dados
 function carregarDados() {
     const dadosDemo = gerarDadosDemonstracao();
     const dadosArmazenados = localStorage.getItem('surveyResponses');
 
     if (dadosArmazenados) {
         const dadosReais = JSON.parse(dadosArmazenados);
-        // Mescla dados de demonstração com dados reais
         respostas = [...dadosDemo, ...dadosReais];
     } else {
-        // Se não houver dados reais, usa apenas os dados de demonstração
         respostas = dadosDemo;
     }
 
@@ -127,33 +130,24 @@ function carregarDados() {
 function processarDados() {
     const stats = {
         total: respostas.length,
-        pratica_sustentabilidade: {},
-        travao_sustentabilidade: {},
-        emissoes_angola: {},
-        contribui_emissoes: {},
-        futuro_empresas: {}
+        factores_passado: {},
+        obstaculo_sustentabilidade: {},
+        prioridade_estrategica: {}
     };
 
     respostas.forEach(resposta => {
-        // Contar prática sustentabilidade
-        const pratica = resposta.pratica_sustentabilidade || 'Não especificado';
-        stats.pratica_sustentabilidade[pratica] = (stats.pratica_sustentabilidade[pratica] || 0) + 1;
-
-        // Contar travão sustentabilidade
-        const travao = resposta.travao_sustentabilidade || 'Não especificado';
-        stats.travao_sustentabilidade[travao] = (stats.travao_sustentabilidade[travao] || 0) + 1;
-
-        // Contar emissões Angola
-        const emissoes = resposta.emissoes_angola || 'Não especificado';
-        stats.emissoes_angola[emissoes] = (stats.emissoes_angola[emissoes] || 0) + 1;
-
-        // Contar contribui emissões
-        const contribui = resposta.contribui_emissoes || 'Não especificado';
-        stats.contribui_emissoes[contribui] = (stats.contribui_emissoes[contribui] || 0) + 1;
-
-        // Contar futuro empresas
-        const futuro = resposta.futuro_empresas || 'Não especificado';
-        stats.futuro_empresas[futuro] = (stats.futuro_empresas[futuro] || 0) + 1;
+        if (resposta.factores_passado) {
+            const val = resposta.factores_passado;
+            stats.factores_passado[val] = (stats.factores_passado[val] || 0) + 1;
+        }
+        if (resposta.obstaculo_sustentabilidade) {
+            const val = resposta.obstaculo_sustentabilidade;
+            stats.obstaculo_sustentabilidade[val] = (stats.obstaculo_sustentabilidade[val] || 0) + 1;
+        }
+        if (resposta.prioridade_estrategica) {
+            const val = resposta.prioridade_estrategica;
+            stats.prioridade_estrategica[val] = (stats.prioridade_estrategica[val] || 0) + 1;
+        }
     });
 
     return stats;
@@ -161,11 +155,8 @@ function processarDados() {
 
 // Atualizar estatísticas resumidas
 function atualizarEstatisticas(stats) {
-    // Mostra o total (com dados demo incluídos)
-    const totalComDemo = stats.total;
-    document.getElementById('totalRespostas').textContent = totalComDemo;
+    document.getElementById('totalRespostas').textContent = stats.total;
 
-    // Atualiza taxa de resposta se o elemento existir
     const taxaElement = document.getElementById('taxaResposta');
     if (taxaElement) {
         taxaElement.textContent = '100%';
@@ -176,30 +167,20 @@ function atualizarEstatisticas(stats) {
     document.getElementById('ultimaAtualizacao').textContent = horaAtual;
 }
 
-// Criar gráfico prática sustentabilidade (DONUT)
-function criarGraficoPratica(stats) {
-    const canvas = document.getElementById('praticaSustChart');
+// Criar gráfico Pergunta 1 - Factores do Passado (DONUT)
+function criarGraficoFactores(stats) {
+    const canvas = document.getElementById('factoresChart');
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    if (factoresChart) factoresChart.destroy();
 
-    if (praticaSustChart) {
-        praticaSustChart.destroy();
-    }
+    const labelMap = gerarLabelMap();
+    const labels = Object.keys(stats.factores_passado).map(key => labelMap[key] || key);
+    const data = Object.values(stats.factores_passado);
+    const backgroundColors = [cores.azul, cores.laranja, cores.verde, cores.roxo];
 
-    const labels = Object.keys(stats.pratica_sustentabilidade).map(key => {
-        const map = {
-            'Conviccao_estrategica': 'Convicção estratégica',
-            'Exigencia_internacional': 'Exigência internacional',
-            'Melhora_imagem': 'Melhora imagem',
-            'Nao_prioridade': 'Não é prioridade'
-        };
-        return map[key] || key;
-    });
-    const data = Object.values(stats.pratica_sustentabilidade);
-    const backgroundColors = [cores.verde, cores.azul, cores.roxo, cores.laranja];
-
-    praticaSustChart = new Chart(ctx, {
+    factoresChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: labels,
@@ -219,12 +200,7 @@ function criarGraficoPratica(stats) {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: {
-                        padding: 8,
-                        font: { size: 10, weight: '600' },
-                        usePointStyle: true,
-                        pointStyle: 'circle'
-                    }
+                    labels: { padding: 8, font: { size: 10, weight: '600' }, usePointStyle: true, pointStyle: 'circle' }
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -241,39 +217,25 @@ function criarGraficoPratica(stats) {
                     }
                 }
             },
-            animation: {
-                animateRotate: true,
-                animateScale: true,
-                duration: 1000
-            }
+            animation: { animateRotate: true, animateScale: true, duration: 1000 }
         }
     });
 }
 
-// Criar gráfico travão sustentabilidade (BARRAS HORIZONTAIS)
-function criarGraficoTravao(stats) {
-    const canvas = document.getElementById('travaoChart');
+// Criar gráfico Pergunta 2 - Obstáculo (BARRAS HORIZONTAIS)
+function criarGraficoObstaculo(stats) {
+    const canvas = document.getElementById('obstaculoChart');
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    if (obstaculoChart) obstaculoChart.destroy();
 
-    if (travaoChart) {
-        travaoChart.destroy();
-    }
-
-    const labels = Object.keys(stats.travao_sustentabilidade).map(key => {
-        const map = {
-            'Falta_lideranca': 'Falta liderança',
-            'Falta_consciencia': 'Falta consciência',
-            'Falta_financiamento': 'Falta financiamento',
-            'Falta_confianca': 'Falta confiança'
-        };
-        return map[key] || key;
-    });
-    const data = Object.values(stats.travao_sustentabilidade);
+    const labelMap = gerarLabelMap();
+    const labels = Object.keys(stats.obstaculo_sustentabilidade).map(key => labelMap[key] || key);
+    const data = Object.values(stats.obstaculo_sustentabilidade);
     const backgroundColors = [cores.rosa, cores.ciano, cores.amarelo, cores.roxo];
 
-    travaoChart = new Chart(ctx, {
+    obstaculoChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
@@ -300,65 +262,40 @@ function criarGraficoTravao(stats) {
                     padding: 14,
                     cornerRadius: 8,
                     callbacks: {
-                        label: function(context) {
-                            return `Respostas: ${context.parsed.x}`;
-                        }
+                        label: function(context) { return `Respostas: ${context.parsed.x}`; }
                     }
                 }
             },
             scales: {
                 x: {
                     beginAtZero: true,
-                    ticks: {
-                        stepSize: 1,
-                        font: { size: 11, weight: '500' },
-                        color: '#666'
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.06)',
-                        drawBorder: false
-                    }
+                    ticks: { stepSize: 1, font: { size: 11, weight: '500' }, color: '#666' },
+                    grid: { color: 'rgba(0, 0, 0, 0.06)', drawBorder: false }
                 },
                 y: {
-                    ticks: {
-                        font: { size: 11, weight: '600' },
-                        color: '#333'
-                    },
+                    ticks: { font: { size: 11, weight: '600' }, color: '#333' },
                     grid: { display: false }
                 }
             },
-            animation: {
-                duration: 1000,
-                easing: 'easeInOutQuart'
-            }
+            animation: { duration: 1000, easing: 'easeInOutQuart' }
         }
     });
 }
 
-// Criar gráfico emissões angola (PIZZA)
-function criarGraficoEmissoes(stats) {
-    const canvas = document.getElementById('emissoesChart');
+// Criar gráfico Pergunta 3 - Prioridade Estratégica (PIZZA)
+function criarGraficoPrioridade(stats) {
+    const canvas = document.getElementById('prioridadeChart');
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    if (prioridadeChart) prioridadeChart.destroy();
 
-    if (emissoesChart) {
-        emissoesChart.destroy();
-    }
+    const labelMap = gerarLabelMap();
+    const labels = Object.keys(stats.prioridade_estrategica).map(key => labelMap[key] || key);
+    const data = Object.values(stats.prioridade_estrategica);
+    const backgroundColors = [cores.verdeEscuro, cores.laranja, cores.rosa, cores.azul];
 
-    const labels = Object.keys(stats.emissoes_angola).map(key => {
-        const map = {
-            'Outras_prioridades': 'Outras prioridades',
-            'Problema_outros': 'Problema dos outros',
-            'Nunca_explicaram': 'Nunca explicaram',
-            'Nao_pensamos': 'Não pensamos nisso'
-        };
-        return map[key] || key;
-    });
-    const data = Object.values(stats.emissoes_angola);
-    const backgroundColors = [cores.verdeEscuro, cores.laranja, cores.azul, cores.rosa];
-
-    emissoesChart = new Chart(ctx, {
+    prioridadeChart = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: labels,
@@ -377,12 +314,7 @@ function criarGraficoEmissoes(stats) {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: {
-                        padding: 8,
-                        font: { size: 10, weight: '600' },
-                        usePointStyle: true,
-                        pointStyle: 'circle'
-                    }
+                    labels: { padding: 8, font: { size: 10, weight: '600' }, usePointStyle: true, pointStyle: 'circle' }
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -399,170 +331,7 @@ function criarGraficoEmissoes(stats) {
                     }
                 }
             },
-            animation: {
-                animateRotate: true,
-                animateScale: true,
-                duration: 1000
-            }
-        }
-    });
-}
-
-// Criar gráfico contribui emissões (BARRAS HORIZONTAIS)
-function criarGraficoContribui(stats) {
-    const canvas = document.getElementById('contribuiChart');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-
-    if (contribuiChart) {
-        contribuiChart.destroy();
-    }
-
-    const labels = Object.keys(stats.contribui_emissoes).map(key => {
-        const map = {
-            'Transito_transportes': 'Trânsito/transportes',
-            'Uso_ineficiente': 'Uso ineficiente',
-            'Agua_eletricidade': 'Água/eletricidade',
-            'Nunca_pensei': 'Nunca pensei'
-        };
-        return map[key] || key;
-    });
-    const data = Object.values(stats.contribui_emissoes);
-    const backgroundColors = [cores.ciano, cores.roxo, cores.verde, cores.amarelo];
-
-    contribuiChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Respostas',
-                data: data,
-                backgroundColor: backgroundColors,
-                borderColor: backgroundColors.map(c => c + 'CC'),
-                borderWidth: 2,
-                borderRadius: 10,
-                barThickness: 40
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                    titleFont: { size: 14, weight: 'bold' },
-                    bodyFont: { size: 13 },
-                    padding: 14,
-                    cornerRadius: 8,
-                    callbacks: {
-                        label: function(context) {
-                            return `Respostas: ${context.parsed.x}`;
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1,
-                        font: { size: 11, weight: '500' },
-                        color: '#666'
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.06)',
-                        drawBorder: false
-                    }
-                },
-                y: {
-                    ticks: {
-                        font: { size: 11, weight: '600' },
-                        color: '#333'
-                    },
-                    grid: { display: false }
-                }
-            },
-            animation: {
-                duration: 1000,
-                easing: 'easeInOutQuart'
-            }
-        }
-    });
-}
-
-// Criar gráfico futuro empresas (DONUT)
-function criarGraficoFuturo(stats) {
-    const canvas = document.getElementById('futuroChart');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-
-    if (futuroChart) {
-        futuroChart.destroy();
-    }
-
-    const labels = Object.keys(stats.futuro_empresas).map(key => {
-        const map = {
-            'Perder_competitividade': 'Perder competitividade',
-            'Sobreviver_limitacoes': 'Sobreviver com limitações',
-            'Manter_iguais': 'Manter-se iguais',
-            'Sem_impactos': 'Sem impactos'
-        };
-        return map[key] || key;
-    });
-    const data = Object.values(stats.futuro_empresas);
-    const backgroundColors = [cores.rosa, cores.laranja, cores.azul, cores.verde];
-
-    futuroChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: backgroundColors,
-                borderWidth: 4,
-                borderColor: '#fff',
-                hoverOffset: 15,
-                hoverBorderWidth: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '60%',
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 8,
-                        font: { size: 10, weight: '600' },
-                        usePointStyle: true,
-                        pointStyle: 'circle'
-                    }
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                    titleFont: { size: 14, weight: 'bold' },
-                    bodyFont: { size: 13 },
-                    padding: 12,
-                    cornerRadius: 8,
-                    callbacks: {
-                        label: function(context) {
-                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            const percentage = ((context.parsed / total) * 100).toFixed(1);
-                            return `${context.label}: ${context.parsed} (${percentage}%)`;
-                        }
-                    }
-                }
-            },
-            animation: {
-                animateRotate: true,
-                animateScale: true,
-                duration: 1000
-            }
+            animation: { animateRotate: true, animateScale: true, duration: 1000 }
         }
     });
 }
@@ -573,51 +342,37 @@ function criarGraficoCrescimento() {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    if (crescimentoChart) crescimentoChart.destroy();
 
-    if (crescimentoChart) {
-        crescimentoChart.destroy();
-    }
-
-    // Definir horários fixos do evento: 08:00 até 16:00
     const horasEvento = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
     const respostasPorHora = {};
 
-    // Inicializar todas as horas com 0
-    horasEvento.forEach(hora => {
-        respostasPorHora[hora] = 0;
-    });
+    horasEvento.forEach(hora => { respostasPorHora[hora] = 0; });
 
-    // Contar respostas reais por horário
     respostas.forEach(resposta => {
         if (resposta.timestamp) {
             const data = new Date(resposta.timestamp);
             const hora = data.getHours();
             const label = `${hora.toString().padStart(2, '0')}:00`;
-
-            // Só contar se estiver dentro do horário do evento
             if (respostasPorHora.hasOwnProperty(label)) {
                 respostasPorHora[label]++;
             }
         }
     });
 
-    // Calcular valores acumulados (crescimento de inscritos)
     let acumulado = 0;
     const dadosAcumulados = horasEvento.map(hora => {
         acumulado += respostasPorHora[hora];
         return acumulado;
     });
 
-    const labels = horasEvento;
-    const data = dadosAcumulados;
-
     crescimentoChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: horasEvento,
             datasets: [{
                 label: 'Total de Inscritos',
-                data: data,
+                data: dadosAcumulados,
                 backgroundColor: 'rgba(38, 166, 154, 0.1)',
                 borderColor: cores.verde,
                 borderWidth: 3,
@@ -639,13 +394,7 @@ function criarGraficoCrescimento() {
                 legend: {
                     display: true,
                     position: 'top',
-                    labels: {
-                        font: { size: 13, weight: '600' },
-                        color: '#333',
-                        usePointStyle: true,
-                        pointStyle: 'circle',
-                        padding: 15
-                    }
+                    labels: { font: { size: 13, weight: '600' }, color: '#333', usePointStyle: true, pointStyle: 'circle', padding: 15 }
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -654,52 +403,24 @@ function criarGraficoCrescimento() {
                     padding: 12,
                     cornerRadius: 8,
                     callbacks: {
-                        label: function(context) {
-                            return `Total de Inscritos: ${context.parsed.y}`;
-                        }
+                        label: function(context) { return `Total de Inscritos: ${context.parsed.y}`; }
                     }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: {
-                        stepSize: 1,
-                        font: { size: 11, weight: '500' },
-                        color: '#666'
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.06)',
-                        drawBorder: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Total de Inscritos',
-                        font: { size: 12, weight: '600' },
-                        color: '#333'
-                    }
+                    ticks: { stepSize: 1, font: { size: 11, weight: '500' }, color: '#666' },
+                    grid: { color: 'rgba(0, 0, 0, 0.06)', drawBorder: false },
+                    title: { display: true, text: 'Total de Inscritos', font: { size: 12, weight: '600' }, color: '#333' }
                 },
                 x: {
-                    ticks: {
-                        font: { size: 11, weight: '500' },
-                        color: '#666'
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.04)',
-                        drawBorder: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Horário',
-                        font: { size: 12, weight: '600' },
-                        color: '#333'
-                    }
+                    ticks: { font: { size: 11, weight: '500' }, color: '#666' },
+                    grid: { color: 'rgba(0, 0, 0, 0.04)', drawBorder: false },
+                    title: { display: true, text: 'Horário', font: { size: 12, weight: '600' }, color: '#333' }
                 }
             },
-            animation: {
-                duration: 1500,
-                easing: 'easeInOutQuart'
-            }
+            animation: { duration: 1500, easing: 'easeInOutQuart' }
         }
     });
 }
@@ -709,19 +430,19 @@ function atualizarTabela() {
     const tbody = document.getElementById('participantesBody');
 
     if (respostas.length === 0) {
-        const colspan = tbody.closest('table').querySelectorAll('thead th').length;
-        tbody.innerHTML = `<tr><td colspan="${colspan}" class="empty-state">Aguardando respostas...</td></tr>`;
+        tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Aguardando respostas...</td></tr>';
         return;
     }
 
     tbody.innerHTML = '';
 
-    // Mostra todas as respostas
     respostas.slice().reverse().forEach((resposta, index) => {
         const tr = document.createElement('tr');
+        const numPergunta = resposta.pergunta || (resposta.isDemoData ? 'Demo' : '--');
         tr.innerHTML = `
             <td>${respostas.length - index}</td>
             <td>${resposta.nome}</td>
+            <td>${numPergunta}</td>
         `;
         tbody.appendChild(tr);
     });
@@ -734,24 +455,21 @@ function atualizarDashboard() {
 
     atualizarEstatisticas(stats);
     criarGraficoCrescimento();
-    criarGraficoPratica(stats);
-    criarGraficoTravao(stats);
-    criarGraficoEmissoes(stats);
-    criarGraficoContribui(stats);
-    criarGraficoFuturo(stats);
+    criarGraficoFactores(stats);
+    criarGraficoObstaculo(stats);
+    criarGraficoPrioridade(stats);
     atualizarTabela();
 }
 
 // Exportar para CSV
 function exportarCSV() {
-    const headers = ['Nome', 'Prática Sustentabilidade', 'Travão Sustentabilidade', 'Emissões Angola', 'Contribui Emissões', 'Futuro Empresas', 'Data'];
+    const headers = ['Nome', 'Factores Passado', 'Obstáculo Sustentabilidade', 'Prioridade Estratégica', 'Pergunta', 'Data'];
     const linhas = respostas.map(r => [
         r.nome,
-        r.pratica_sustentabilidade || '',
-        r.travao_sustentabilidade || '',
-        r.emissoes_angola || '',
-        r.contribui_emissoes || '',
-        r.futuro_empresas || '',
+        r.factores_passado || '',
+        r.obstaculo_sustentabilidade || '',
+        r.prioridade_estrategica || '',
+        r.pergunta || '',
         new Date(r.timestamp).toLocaleString('pt-PT')
     ]);
 
@@ -769,12 +487,9 @@ function exportarCSV() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Carregar dados iniciais
-    setTimeout(() => {
-        atualizarDashboard();
-    }, 100);
+    setTimeout(() => { atualizarDashboard(); }, 100);
 
-    // Botão de atualizar (se existir)
+    // Botão de atualizar
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', () => {
@@ -786,53 +501,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Botões de exportação (se existirem)
+    // Exportação
     const exportCsvBtn = document.getElementById('exportCsvBtn');
     const exportPdfBtn = document.getElementById('exportPdfBtn');
     const exportExcelBtn = document.getElementById('exportExcelBtn');
 
-    if (exportCsvBtn) {
-        exportCsvBtn.addEventListener('click', exportarCSV);
-    }
-
+    if (exportCsvBtn) exportCsvBtn.addEventListener('click', exportarCSV);
     if (exportPdfBtn) {
         exportPdfBtn.addEventListener('click', () => {
             alert('Use a função de impressão do navegador (Ctrl+P) e salve como PDF.');
             window.print();
         });
     }
+    if (exportExcelBtn) exportExcelBtn.addEventListener('click', exportarCSV);
 
-    if (exportExcelBtn) {
-        exportExcelBtn.addEventListener('click', exportarCSV);
-    }
+    // Toggle de visibilidade das secções do inquérito
+    const toggleButtons = document.querySelectorAll('.btn-toggle-section');
+    toggleButtons.forEach(btn => {
+        const targetId = btn.getAttribute('data-target');
 
-    // Botão de toggle para ocultar/mostrar participantes (dados confidenciais)
-    const toggleParticipantesBtn = document.getElementById('toggleParticipantesBtn');
-    const participantesWrapper = document.getElementById('participantesWrapper');
-
-    if (toggleParticipantesBtn && participantesWrapper) {
-        // Carregar preferência salva
-        const isHidden = localStorage.getItem('participantesHidden') === 'true';
-        if (isHidden) {
-            participantesWrapper.style.display = 'none';
-            toggleParticipantesBtn.innerHTML = '<i class="fas fa-eye"></i> Mostrar Participantes';
+        // Carregar preferência guardada
+        const savedState = localStorage.getItem('dashboard_visible_' + targetId);
+        if (savedState === 'false') {
+            const target = document.getElementById(targetId);
+            if (target) target.classList.add('section-hidden');
+            btn.classList.remove('active');
         }
 
-        toggleParticipantesBtn.addEventListener('click', () => {
-            const currentlyHidden = participantesWrapper.style.display === 'none';
+        btn.addEventListener('click', () => {
+            const target = document.getElementById(targetId);
+            if (!target) return;
 
-            if (currentlyHidden) {
-                participantesWrapper.style.display = 'block';
-                toggleParticipantesBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Ocultar Participantes';
-                localStorage.setItem('participantesHidden', 'false');
-            } else {
-                participantesWrapper.style.display = 'none';
-                toggleParticipantesBtn.innerHTML = '<i class="fas fa-eye"></i> Mostrar Participantes';
-                localStorage.setItem('participantesHidden', 'true');
-            }
+            const isHidden = target.classList.toggle('section-hidden');
+            btn.classList.toggle('active', !isHidden);
+
+            // Guardar preferência
+            localStorage.setItem('dashboard_visible_' + targetId, !isHidden);
         });
-    }
+    });
 
-    // Atualização automática a cada 3 segundos para refletir mudanças em tempo real
+    // Atualização automática a cada 3 segundos
     setInterval(atualizarDashboard, 3000);
 });

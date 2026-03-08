@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Pergunta 1</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .dash-wrapper {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 35px 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        .dash-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%);
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .dash-title {
+            font-size: 1.3rem;
+            color: #3949AB;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .dash-question {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .mini-stat {
+            background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%);
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 14px;
+            text-align: center;
+            min-width: 140px;
+            box-shadow: 0 4px 15px rgba(92, 107, 192, 0.3);
+        }
+        .mini-stat h3 { font-size: 2rem; margin-bottom: 3px; }
+        .mini-stat p { font-size: 0.85rem; opacity: 0.9; }
+        .chart-area {
+            position: relative;
+            height: 320px;
+            margin: 20px 0;
+        }
+        /* Tabela de respostas */
+        .table-section { margin-top: 25px; }
+        .table-section h3 {
+            font-size: 1rem;
+            color: #3949AB;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .resp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .resp-table thead {
+            background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%);
+            color: #fff;
+        }
+        .resp-table th { padding: 12px 15px; text-align: left; font-weight: 600; }
+        .resp-table td { padding: 10px 15px; border-bottom: 1px solid #e0e0e0; }
+        .resp-table tbody tr:hover { background: rgba(92, 107, 192, 0.05); }
+        .empty-state { text-align: center; color: #999; font-style: italic; padding: 30px !important; }
+        /* Navegação */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            padding: 10px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-p { background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%); color: #fff; }
+        .btn-p:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(92, 107, 192, 0.4); }
+        .btn-s { background: #e0e0e0; color: #555; }
+        .btn-s:hover { background: #d0d0d0; }
+        @media (max-width: 768px) {
+            .dash-wrapper { margin: 10px; padding: 25px 20px; }
+            .chart-area { height: 260px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="event-header">
+        <div class="header-content">
+            <img src="../logotipo.png" alt="Logo Allora" class="logo">
+            <h1>2º Fórum Nacional de Negócios Sustentáveis</h1>
+            <p class="subtitle">"Desenhando um futuro sustentável" - 10 de Março de 2026</p>
+        </div>
+    </header>
+
+    <div class="dash-wrapper">
+        <div style="text-align: center;">
+            <span class="dash-badge">Dashboard - Pergunta 1</span>
+            <h2 class="dash-title"><i class="fas fa-history"></i> Factores do Passado</h2>
+            <p class="dash-question">Na sua opinião que factores do passado influenciaram a forma como hoje pensamos sustentabilidade e desenvolvimento económico?</p>
+        </div>
+
+        <div class="stats-row">
+            <div class="mini-stat">
+                <h3 id="totalRespostas">0</h3>
+                <p>Total de Respostas</p>
+            </div>
+            <div class="mini-stat">
+                <h3 id="ultimaHora">--</h3>
+                <p>Última Atualização</p>
+            </div>
+        </div>
+
+        <div class="chart-area">
+            <canvas id="resultChart"></canvas>
+        </div>
+
+        <div class="table-section">
+            <h3><i class="fas fa-list"></i> Últimas Respostas</h3>
+            <table class="resp-table">
+                <thead><tr><th>#</th><th>Nome</th><th>Resposta</th></tr></thead>
+                <tbody id="respostasBody">
+                    <tr><td colspan="3" class="empty-state">Aguardando respostas...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" class="btn-p"><i class="fas fa-edit"></i> Inquérito</a>
+            <a href="qrcode.html" class="btn-p"><i class="fas fa-qrcode"></i> QR Code</a>
+            <a href="../dashboard.html" class="btn-s"><i class="fas fa-chart-line"></i> Dashboard Geral</a>
+            <a href="../admin.html" class="btn-s"><i class="fas fa-cog"></i> Admin</a>
+        </div>
+    </div>
+
+    <script>
+        const LABEL_MAP = {
+            'Reconstrucao_crescimento': 'Reconstrução nacional e crescimento económico',
+            'Crises_petroleo': 'Crises económicas e volatilidade do petróleo',
+            'Consciencia_ambiental': 'Crescente consciência ambiental global',
+            'Pressao_ESG': 'Pressão internacional por padrões ESG'
+        };
+        const CAMPO = 'factores_passado';
+        const CORES = ['#5C6BC0', '#FF7043', '#26A69A', '#7E57C2'];
+
+        const DEMO_DATA = [
+            { nome: 'João Silva', factores_passado: 'Crises_petroleo' },
+            { nome: 'Maria Santos', factores_passado: 'Consciencia_ambiental' },
+            { nome: 'Pedro Costa', factores_passado: 'Pressao_ESG' },
+            { nome: 'Ana Ferreira', factores_passado: 'Reconstrucao_crescimento' },
+            { nome: 'Carlos Mendes', factores_passado: 'Crises_petroleo' },
+            { nome: 'Sofia Rodrigues', factores_passado: 'Consciencia_ambiental' },
+            { nome: 'Miguel Alves', factores_passado: 'Pressao_ESG' },
+            { nome: 'Teresa Martins', factores_passado: 'Reconstrucao_crescimento' }
+        ];
+
+        let chartInstance = null;
+
+        function atualizar() {
+            const armazenados = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
+            const reaisP1 = armazenados.filter(r => r[CAMPO]);
+            const todas = [...DEMO_DATA, ...reaisP1];
+
+            const contagem = {};
+            todas.forEach(r => {
+                if (r[CAMPO]) contagem[r[CAMPO]] = (contagem[r[CAMPO]] || 0) + 1;
+            });
+
+            const labels = Object.keys(contagem).map(k => LABEL_MAP[k] || k);
+            const data = Object.values(contagem);
+            const total = data.reduce((a, b) => a + b, 0);
+
+            document.getElementById('totalRespostas').textContent = total;
+            document.getElementById('ultimaHora').textContent = new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+
+            // Gráfico
+            const ctx = document.getElementById('resultChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{ data: data, backgroundColor: CORES, borderWidth: 4, borderColor: '#fff', hoverOffset: 15 }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, cutout: '60%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 12, font: { size: 12, weight: '600' }, usePointStyle: true } },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.9)', padding: 12, cornerRadius: 8,
+                            callbacks: {
+                                label: function(c) {
+                                    const t = c.dataset.data.reduce((a, b) => a + b, 0);
+                                    return `${c.label}: ${c.parsed} (${((c.parsed/t)*100).toFixed(1)}%)`;
+                                }
+                            }
+                        }
+                    },
+                    animation: { animateRotate: true, animateScale: true, duration: 800 }
+                }
+            });
+
+            // Tabela
+            const tbody = document.getElementById('respostasBody');
+            if (todas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Aguardando respostas...</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            todas.slice().reverse().slice(0, 20).forEach((r, i) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${todas.length - i}</td><td>${r.nome || '--'}</td><td>${LABEL_MAP[r[CAMPO]] || r[CAMPO] || '--'}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        atualizar();
+        setInterval(atualizar, 3000);
+    </script>
+</body>
+</html>
