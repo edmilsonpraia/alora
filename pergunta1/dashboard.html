@@ -116,6 +116,18 @@
         .btn-p:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(92, 107, 192, 0.4); }
         .btn-s { background: #e0e0e0; color: #555; }
         .btn-s:hover { background: #d0d0d0; }
+        .toggle-row {
+            display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .btn-toggle {
+            padding: 8px 18px; border: 2px solid #5C6BC0; border-radius: 8px;
+            background: #fff; color: #5C6BC0; font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-toggle:hover { background: #e8eaf6; }
+        .btn-toggle.active { background: linear-gradient(135deg, #5C6BC0 0%, #3949AB 100%); color: #fff; border-color: #3949AB; }
+        .section-hidden { display: none !important; }
         @media (max-width: 768px) {
             .dash-wrapper { margin: 10px; padding: 25px 20px; }
             .chart-area { height: 260px; }
@@ -149,11 +161,20 @@
             </div>
         </div>
 
-        <div class="chart-area">
+        <div class="toggle-row">
+            <button class="btn-toggle active" id="toggleChart" onclick="toggleSection('chartSection','toggleChart')">
+                <i class="fas fa-chart-pie"></i> Gráfico
+            </button>
+            <button class="btn-toggle active" id="toggleTable" onclick="toggleSection('tableSection','toggleTable')">
+                <i class="fas fa-users"></i> Inscritos
+            </button>
+        </div>
+
+        <div class="chart-area" id="chartSection">
             <canvas id="resultChart"></canvas>
         </div>
 
-        <div class="table-section">
+        <div class="table-section" id="tableSection">
             <h3><i class="fas fa-list"></i> Últimas Respostas</h3>
             <table class="resp-table">
                 <thead><tr><th>#</th><th>Nome</th><th>Resposta</th></tr></thead>
@@ -251,6 +272,22 @@
                 tbody.appendChild(tr);
             });
         }
+
+        function toggleSection(sectionId, btnId) {
+            const section = document.getElementById(sectionId);
+            const btn = document.getElementById(btnId);
+            section.classList.toggle('section-hidden');
+            btn.classList.toggle('active');
+            localStorage.setItem('dash_p1_' + sectionId, section.classList.contains('section-hidden') ? 'hidden' : 'visible');
+        }
+        // Restore toggle state
+        ['chartSection', 'tableSection'].forEach(id => {
+            const btnId = id === 'chartSection' ? 'toggleChart' : 'toggleTable';
+            if (localStorage.getItem('dash_p1_' + id) === 'hidden') {
+                document.getElementById(id).classList.add('section-hidden');
+                document.getElementById(btnId).classList.remove('active');
+            }
+        });
 
         atualizar();
         setInterval(atualizar, 3000);
