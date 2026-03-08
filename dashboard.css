@@ -264,7 +264,7 @@ body::before {
 
 .chart-wrapper {
     position: relative;
-    height: 160px;
+    height: 280px;
 }
 
 /* Tabela de Participantes */
@@ -395,7 +395,7 @@ tbody td {
     }
 
     .chart-wrapper {
-        height: 200px;
+        height: 250px;
     }
 
     .stat-card {

@@ -11,10 +11,10 @@ const PERGUNTAS_CONFIG = [
         iconeCor: 'icon-history',
         pergunta: 'Na sua opinião que factores do passado influenciaram a forma como hoje pensamos sustentabilidade e desenvolvimento económico?',
         opcoes: [
-            { valor: 'Reconstrucao_crescimento', texto: 'A reconstrução nacional e crescimento económico acelerado' },
-            { valor: 'Crises_petroleo', texto: 'As crises económicas e volatilidade do petróleo' },
-            { valor: 'Consciencia_ambiental', texto: 'A crescente consciência ambiental global' },
-            { valor: 'Pressao_ESG', texto: 'A pressão internacional por padrões ESG e transição energética' }
+            { valor: 'Reconstrucao_crescimento', texto: 'Reconstrução e crescimento económico' },
+            { valor: 'Crises_petroleo', texto: 'Crises e volatilidade do petróleo' },
+            { valor: 'Consciencia_ambiental', texto: 'Consciência ambiental global' },
+            { valor: 'Pressao_ESG', texto: 'Pressão por padrões ESG' }
         ],
         dashboardTitulo: 'Factores do Passado',
         dashboardDescricao: 'Factores que influenciaram o pensamento sobre sustentabilidade',
@@ -28,10 +28,10 @@ const PERGUNTAS_CONFIG = [
         iconeCor: 'icon-obstacle',
         pergunta: 'Na sua opinião, qual é hoje o maior obstáculo para a implementação de práticas sustentáveis nos negócios em Angola?',
         opcoes: [
-            { valor: 'Falta_financiamento_verde', texto: 'Falta de financiamento verde' },
-            { valor: 'Falta_conhecimento', texto: 'Falta de conhecimento técnico e capacitação' },
-            { valor: 'Falta_incentivos', texto: 'Falta de incentivos e políticas claras' },
-            { valor: 'Sustentabilidade_custo', texto: 'Percepção de que sustentabilidade é custo e não investimento' }
+            { valor: 'Falta_financiamento_verde', texto: 'Financiamento verde' },
+            { valor: 'Falta_conhecimento', texto: 'Conhecimento técnico' },
+            { valor: 'Falta_incentivos', texto: 'Incentivos e políticas' },
+            { valor: 'Sustentabilidade_custo', texto: 'Sustentabilidade = custo' }
         ],
         dashboardTitulo: 'Maior Obstáculo',
         dashboardDescricao: 'Principal obstáculo para práticas sustentáveis em Angola',
@@ -45,10 +45,10 @@ const PERGUNTAS_CONFIG = [
         iconeCor: 'icon-strategy',
         pergunta: 'Para que Angola se posicione como referência em negócios sustentáveis em África, na sua opinião qual deveria ser a prioridade estratégica do país?',
         opcoes: [
-            { valor: 'Incentivos_fiscais', texto: 'Criar incentivos fiscais e financeiros para negócios verdes' },
-            { valor: 'Inovacao_tecnologia', texto: 'Investir fortemente em inovação e tecnologia' },
-            { valor: 'Capital_humano', texto: 'Desenvolver capital humano e formação especializada' },
-            { valor: 'Parcerias_internacionais', texto: 'Fortalecer parcerias internacionais e financiamento climático' }
+            { valor: 'Incentivos_fiscais', texto: 'Incentivos fiscais e financeiros' },
+            { valor: 'Inovacao_tecnologia', texto: 'Inovação e tecnologia' },
+            { valor: 'Capital_humano', texto: 'Capital humano e formação' },
+            { valor: 'Parcerias_internacionais', texto: 'Parcerias internacionais' }
         ],
         dashboardTitulo: 'Prioridade Estratégica',
         dashboardDescricao: 'Prioridade para Angola ser referência em negócios sustentáveis',

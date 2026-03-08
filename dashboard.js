@@ -196,11 +196,12 @@ function criarGraficoFactores(stats) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '65%',
+            cutout: '55%',
+            layout: { padding: { bottom: 10 } },
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { padding: 8, font: { size: 10, weight: '600' }, usePointStyle: true, pointStyle: 'circle' }
+                    labels: { padding: 12, font: { size: 11, weight: '600' }, usePointStyle: true, pointStyle: 'circle', boxWidth: 10 }
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -246,13 +247,14 @@ function criarGraficoObstaculo(stats) {
                 borderColor: backgroundColors.map(c => c + 'CC'),
                 borderWidth: 2,
                 borderRadius: 10,
-                barThickness: 40
+                barThickness: 35
             }]
         },
         options: {
             indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
+            layout: { padding: { left: 10, right: 20 } },
             plugins: {
                 legend: { display: false },
                 tooltip: {
@@ -273,8 +275,9 @@ function criarGraficoObstaculo(stats) {
                     grid: { color: 'rgba(0, 0, 0, 0.06)', drawBorder: false }
                 },
                 y: {
-                    ticks: { font: { size: 11, weight: '600' }, color: '#333' },
-                    grid: { display: false }
+                    ticks: { font: { size: 12, weight: '700' }, color: '#333', padding: 8 },
+                    grid: { display: false },
+                    afterFit: function(scaleInstance) { scaleInstance.width = 180; }
                 }
             },
             animation: { duration: 1000, easing: 'easeInOutQuart' }
@@ -311,10 +314,11 @@ function criarGraficoPrioridade(stats) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: { padding: { bottom: 10 } },
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { padding: 8, font: { size: 10, weight: '600' }, usePointStyle: true, pointStyle: 'circle' }
+                    labels: { padding: 12, font: { size: 11, weight: '600' }, usePointStyle: true, pointStyle: 'circle', boxWidth: 10 }
                 },
                 tooltip: {
                     backgroundColor: 'rgba(0, 0, 0, 0.9)',
