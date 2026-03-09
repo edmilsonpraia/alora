@@ -163,27 +163,8 @@
             </div>
         </div>
 
-        <div class="toggle-row">
-            <button class="btn-toggle active" id="toggleChart" onclick="toggleSection('chartSection','toggleChart')">
-                <i class="fas fa-chart-pie"></i> Gráfico
-            </button>
-            <button class="btn-toggle active" id="toggleTable" onclick="toggleSection('tableSection','toggleTable')">
-                <i class="fas fa-users"></i> Inscritos
-            </button>
-        </div>
-
         <div class="chart-area" id="chartSection">
             <canvas id="resultChart"></canvas>
-        </div>
-
-        <div class="table-section" id="tableSection">
-            <h3><i class="fas fa-list"></i> Últimas Respostas</h3>
-            <table class="resp-table">
-                <thead><tr><th>#</th><th>Nome</th><th>Resposta</th></tr></thead>
-                <tbody id="respostasBody">
-                    <tr><td colspan="3" class="empty-state">Aguardando respostas...</td></tr>
-                </tbody>
-            </table>
         </div>
 
     </div>
