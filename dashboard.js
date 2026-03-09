@@ -347,7 +347,7 @@ function atualizarTabela() {
     const tbody = document.getElementById('participantesBody');
 
     if (respostas.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Aguardando respostas...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="empty-state">Aguardando respostas...</td></tr>';
         return;
     }
 
@@ -356,13 +356,54 @@ function atualizarTabela() {
     respostas.slice().reverse().forEach((resposta, index) => {
         const tr = document.createElement('tr');
         const numPergunta = resposta.pergunta || (resposta.isDemoData ? 'Demo' : '--');
+        const realIndex = respostas.length - 1 - index;
         tr.innerHTML = `
             <td>${respostas.length - index}</td>
             <td>${resposta.nome}</td>
             <td>${numPergunta}</td>
+            <td><button class="btn-delete" onclick="eliminarParticipante(${realIndex})"><i class="fas fa-trash"></i> Eliminar</button></td>
         `;
         tbody.appendChild(tr);
     });
+}
+
+// Eliminar um participante individual
+function eliminarParticipante(index) {
+    const nome = respostas[index] ? respostas[index].nome : '';
+    if (!confirm(`Tem certeza que deseja eliminar "${nome}"?`)) return;
+
+    if (_dbReady && _dbRef) {
+        // Eliminar do Firebase
+        _dbRef.once('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                const keys = Object.keys(data);
+                if (keys[index]) {
+                    _dbRef.child(keys[index]).remove().then(() => {
+                        atualizarDashboard();
+                    });
+                }
+            }
+        });
+    } else {
+        // Fallback localStorage
+        const local = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
+        local.splice(index, 1);
+        localStorage.setItem('surveyResponses', JSON.stringify(local));
+        atualizarDashboard();
+    }
+}
+
+// Eliminar todos os participantes
+function eliminarTodos() {
+    if (respostas.length === 0) {
+        alert('Não há participantes para eliminar.');
+        return;
+    }
+    if (!confirm(`Tem certeza que deseja eliminar TODOS os ${respostas.length} participantes? Esta ação não pode ser desfeita.`)) return;
+
+    DB.clear();
+    atualizarDashboard();
 }
 
 // Atualizar todos os dados
