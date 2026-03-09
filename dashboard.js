@@ -33,96 +33,9 @@ function gerarLabelMap() {
     return map;
 }
 
-// Dados de demonstração para as novas perguntas
-function gerarDadosDemonstracao() {
-    return [
-        {
-            nome: 'João Silva',
-            factores_passado: 'Crises_petroleo',
-            obstaculo_sustentabilidade: 'Falta_financiamento_verde',
-            prioridade_estrategica: 'Incentivos_fiscais',
-            pergunta: 0,
-            timestamp: '2026-03-10T10:30:00.000Z',
-            isDemoData: true
-        },
-        {
-            nome: 'Maria Santos',
-            factores_passado: 'Consciencia_ambiental',
-            obstaculo_sustentabilidade: 'Falta_conhecimento',
-            prioridade_estrategica: 'Capital_humano',
-            pergunta: 0,
-            timestamp: '2026-03-10T11:15:00.000Z',
-            isDemoData: true
-        },
-        {
-            nome: 'Pedro Costa',
-            factores_passado: 'Pressao_ESG',
-            obstaculo_sustentabilidade: 'Falta_incentivos',
-            prioridade_estrategica: 'Inovacao_tecnologia',
-            pergunta: 0,
-            timestamp: '2026-03-10T14:20:00.000Z',
-            isDemoData: true
-        },
-        {
-            nome: 'Ana Ferreira',
-            factores_passado: 'Reconstrucao_crescimento',
-            obstaculo_sustentabilidade: 'Sustentabilidade_custo',
-            prioridade_estrategica: 'Parcerias_internacionais',
-            pergunta: 0,
-            timestamp: '2026-03-10T09:45:00.000Z',
-            isDemoData: true
-        },
-        {
-            nome: 'Carlos Mendes',
-            factores_passado: 'Crises_petroleo',
-            obstaculo_sustentabilidade: 'Falta_financiamento_verde',
-            prioridade_estrategica: 'Incentivos_fiscais',
-            pergunta: 0,
-            timestamp: '2026-03-10T16:30:00.000Z',
-            isDemoData: true
-        },
-        {
-            nome: 'Sofia Rodrigues',
-            factores_passado: 'Consciencia_ambiental',
-            obstaculo_sustentabilidade: 'Falta_conhecimento',
-            prioridade_estrategica: 'Capital_humano',
-            pergunta: 0,
-            timestamp: '2026-03-10T08:00:00.000Z',
-            isDemoData: true
-        },
-        {
-            nome: 'Miguel Alves',
-            factores_passado: 'Pressao_ESG',
-            obstaculo_sustentabilidade: 'Falta_incentivos',
-            prioridade_estrategica: 'Inovacao_tecnologia',
-            pergunta: 0,
-            timestamp: '2026-03-10T13:15:00.000Z',
-            isDemoData: true
-        },
-        {
-            nome: 'Teresa Martins',
-            factores_passado: 'Reconstrucao_crescimento',
-            obstaculo_sustentabilidade: 'Sustentabilidade_custo',
-            prioridade_estrategica: 'Parcerias_internacionais',
-            pergunta: 0,
-            timestamp: '2026-03-10T15:45:00.000Z',
-            isDemoData: true
-        }
-    ];
-}
-
-// Carregar dados
+// Carregar dados - usa Firebase via DB.getAll() com fallback para localStorage
 function carregarDados() {
-    const dadosDemo = gerarDadosDemonstracao();
-    const dadosArmazenados = localStorage.getItem('surveyResponses');
-
-    if (dadosArmazenados) {
-        const dadosReais = JSON.parse(dadosArmazenados);
-        respostas = [...dadosDemo, ...dadosReais];
-    } else {
-        respostas = dadosDemo;
-    }
-
+    respostas = DB.getAll();
     return respostas;
 }
 
@@ -492,6 +405,9 @@ function exportarCSV() {
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { atualizarDashboard(); }, 100);
+
+    // Escutar atualizações em tempo real do Firebase
+    DB.onUpdate(function() { atualizarDashboard(); });
 
     // Botão de atualizar
     const refreshBtn = document.getElementById('refreshBtn');

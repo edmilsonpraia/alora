@@ -299,6 +299,9 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="db.js"></script>
     <script>
         const LABEL_MAP = {
             'Reconstrucao_crescimento': 'Reconstrução nacional e crescimento económico',
@@ -324,7 +327,7 @@
         let currentFilter = 'all';
 
         function getSubmissions() {
-            return JSON.parse(localStorage.getItem('surveySubmissions') || '[]');
+            return DB.getAll();
         }
 
         function getResponseField(item) {
@@ -489,12 +492,12 @@
         function showConfirm() { document.getElementById('confirmOverlay').classList.add('show'); }
         function hideConfirm() { document.getElementById('confirmOverlay').classList.remove('show'); }
         function clearAllData() {
-            localStorage.removeItem('surveySubmissions');
-            localStorage.removeItem('surveyResponses');
+            DB.clear();
             hideConfirm();
             atualizar();
         }
 
+        DB.onUpdate(function() { atualizar(); });
         atualizar();
         setInterval(atualizar, 5000);
     </script>

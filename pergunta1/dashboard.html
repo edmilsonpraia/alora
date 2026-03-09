@@ -192,33 +192,23 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="../db.js"></script>
     <script>
         const LABEL_MAP = {
-            'Reconstrucao_crescimento': 'Reconstrução nacional e crescimento económico',
-            'Crises_petroleo': 'Crises económicas e volatilidade do petróleo',
-            'Consciencia_ambiental': 'Crescente consciência ambiental global',
-            'Pressao_ESG': 'Pressão internacional por padrões ESG'
+            'Reconstrucao_crescimento': 'Reconstrução e crescimento económico',
+            'Crises_petroleo': 'Crises e volatilidade do petróleo',
+            'Consciencia_ambiental': 'Consciência ambiental global',
+            'Pressao_ESG': 'Pressão por padrões ESG'
         };
         const CAMPO = 'factores_passado';
         const CORES = ['#5C6BC0', '#FF7043', '#26A69A', '#7E57C2'];
 
-        const DEMO_DATA = [
-            { nome: 'João Silva', factores_passado: 'Crises_petroleo' },
-            { nome: 'Maria Santos', factores_passado: 'Consciencia_ambiental' },
-            { nome: 'Pedro Costa', factores_passado: 'Pressao_ESG' },
-            { nome: 'Ana Ferreira', factores_passado: 'Reconstrucao_crescimento' },
-            { nome: 'Carlos Mendes', factores_passado: 'Crises_petroleo' },
-            { nome: 'Sofia Rodrigues', factores_passado: 'Consciencia_ambiental' },
-            { nome: 'Miguel Alves', factores_passado: 'Pressao_ESG' },
-            { nome: 'Teresa Martins', factores_passado: 'Reconstrucao_crescimento' }
-        ];
-
         let chartInstance = null;
 
         function atualizar() {
-            const armazenados = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
-            const reaisP1 = armazenados.filter(r => r[CAMPO]);
-            const todas = [...DEMO_DATA, ...reaisP1];
+            const todas = DB.getAll().filter(r => r[CAMPO]);
 
             const contagem = {};
             todas.forEach(r => {
@@ -272,6 +262,9 @@
                 tbody.appendChild(tr);
             });
         }
+
+        // Escutar atualizações em tempo real do Firebase
+        DB.onUpdate(function() { atualizar(); });
 
         function toggleSection(sectionId, btnId) {
             const section = document.getElementById(sectionId);

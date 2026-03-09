@@ -165,33 +165,23 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="../db.js"></script>
     <script>
         const LABEL_MAP = {
-            'Incentivos_fiscais': 'Criar incentivos fiscais e financeiros',
-            'Inovacao_tecnologia': 'Investir em inovação e tecnologia',
-            'Capital_humano': 'Desenvolver capital humano e formação',
-            'Parcerias_internacionais': 'Fortalecer parcerias internacionais'
+            'Incentivos_fiscais': 'Incentivos fiscais e financeiros',
+            'Inovacao_tecnologia': 'Inovação e tecnologia',
+            'Capital_humano': 'Capital humano e formação',
+            'Parcerias_internacionais': 'Parcerias internacionais'
         };
         const CAMPO = 'prioridade_estrategica';
         const CORES = ['#00897B', '#FF7043', '#EC407A', '#5C6BC0'];
 
-        const DEMO_DATA = [
-            { nome: 'João Silva', prioridade_estrategica: 'Incentivos_fiscais' },
-            { nome: 'Maria Santos', prioridade_estrategica: 'Capital_humano' },
-            { nome: 'Pedro Costa', prioridade_estrategica: 'Inovacao_tecnologia' },
-            { nome: 'Ana Ferreira', prioridade_estrategica: 'Parcerias_internacionais' },
-            { nome: 'Carlos Mendes', prioridade_estrategica: 'Incentivos_fiscais' },
-            { nome: 'Sofia Rodrigues', prioridade_estrategica: 'Capital_humano' },
-            { nome: 'Miguel Alves', prioridade_estrategica: 'Inovacao_tecnologia' },
-            { nome: 'Teresa Martins', prioridade_estrategica: 'Parcerias_internacionais' }
-        ];
-
         let chartInstance = null;
 
         function atualizar() {
-            const armazenados = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
-            const reais = armazenados.filter(r => r[CAMPO]);
-            const todas = [...DEMO_DATA, ...reais];
+            const todas = DB.getAll().filter(r => r[CAMPO]);
 
             const contagem = {};
             todas.forEach(r => { if (r[CAMPO]) contagem[r[CAMPO]] = (contagem[r[CAMPO]] || 0) + 1; });
@@ -253,6 +243,7 @@
             }
         });
 
+        DB.onUpdate(function() { atualizar(); });
         atualizar();
         setInterval(atualizar, 3000);
     </script>

@@ -153,6 +153,9 @@
 
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="../db.js"></script>
     <script>
         document.getElementById('surveyForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -177,12 +180,7 @@
             if (!valid) return;
 
             const data = { nome, prioridade_estrategica: resposta.value, pergunta: 3, timestamp: new Date().toISOString() };
-            const respostas = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
-            respostas.push(data);
-            localStorage.setItem('surveyResponses', JSON.stringify(respostas));
-            const submissions = JSON.parse(localStorage.getItem('surveySubmissions') || '[]');
-            submissions.push(data);
-            localStorage.setItem('surveySubmissions', JSON.stringify(submissions));
+            DB.save(data);
 
             document.getElementById('successMessage').style.display = 'block';
             this.querySelector('.btn-submit').disabled = true;

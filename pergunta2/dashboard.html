@@ -165,33 +165,23 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="../db.js"></script>
     <script>
         const LABEL_MAP = {
-            'Falta_financiamento_verde': 'Falta de financiamento verde',
-            'Falta_conhecimento': 'Falta de conhecimento técnico e capacitação',
-            'Falta_incentivos': 'Falta de incentivos e políticas claras',
-            'Sustentabilidade_custo': 'Percepção de que sustentabilidade é custo'
+            'Falta_financiamento_verde': 'Financiamento verde',
+            'Falta_conhecimento': 'Conhecimento técnico',
+            'Falta_incentivos': 'Incentivos e políticas',
+            'Sustentabilidade_custo': 'Sustentabilidade = custo'
         };
         const CAMPO = 'obstaculo_sustentabilidade';
         const CORES = ['#EC407A', '#26C6DA', '#FFCA28', '#7E57C2'];
 
-        const DEMO_DATA = [
-            { nome: 'João Silva', obstaculo_sustentabilidade: 'Falta_financiamento_verde' },
-            { nome: 'Maria Santos', obstaculo_sustentabilidade: 'Falta_conhecimento' },
-            { nome: 'Pedro Costa', obstaculo_sustentabilidade: 'Falta_incentivos' },
-            { nome: 'Ana Ferreira', obstaculo_sustentabilidade: 'Sustentabilidade_custo' },
-            { nome: 'Carlos Mendes', obstaculo_sustentabilidade: 'Falta_financiamento_verde' },
-            { nome: 'Sofia Rodrigues', obstaculo_sustentabilidade: 'Falta_conhecimento' },
-            { nome: 'Miguel Alves', obstaculo_sustentabilidade: 'Falta_incentivos' },
-            { nome: 'Teresa Martins', obstaculo_sustentabilidade: 'Sustentabilidade_custo' }
-        ];
-
         let chartInstance = null;
 
         function atualizar() {
-            const armazenados = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
-            const reais = armazenados.filter(r => r[CAMPO]);
-            const todas = [...DEMO_DATA, ...reais];
+            const todas = DB.getAll().filter(r => r[CAMPO]);
 
             const contagem = {};
             todas.forEach(r => { if (r[CAMPO]) contagem[r[CAMPO]] = (contagem[r[CAMPO]] || 0) + 1; });
@@ -252,6 +242,7 @@
             }
         });
 
+        DB.onUpdate(function() { atualizar(); });
         atualizar();
         setInterval(atualizar, 3000);
     </script>
