@@ -59,15 +59,15 @@ body::before {
 }
 
 .dashboard-header h1 {
-    font-size: 1.4em;
+    font-size: 1.8em;
     margin-bottom: 3px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .dashboard-header .subtitle {
-    font-size: 0.9em;
+    font-size: 1.1em;
     opacity: 0.9;
-    font-weight: 300;
+    font-weight: 500;
 }
 
 .dashboard-nav {
@@ -84,7 +84,8 @@ body::before {
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 600;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -171,14 +172,16 @@ body::before {
 }
 
 .stat-info h3 {
-    font-size: 2em;
+    font-size: 2.4em;
     color: #00897B;
     margin-bottom: 5px;
+    font-weight: 800;
 }
 
 .stat-info p {
-    font-size: 0.95em;
-    color: #666;
+    font-size: 1.05em;
+    color: #555;
+    font-weight: 600;
 }
 
 /* Seção de Crescimento */
@@ -220,21 +223,23 @@ body::before {
 }
 
 .chart-header h2 {
-    font-size: 1.1em;
+    font-size: 1.4em;
     color: #00897B;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
     gap: 8px;
+    font-weight: 800;
 }
 
 .chart-header h2 i {
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
 .chart-description {
-    font-size: 0.8em;
-    color: #666;
+    font-size: 0.95em;
+    color: #555;
+    font-weight: 500;
 }
 
 .btn-toggle-participants {
@@ -285,8 +290,8 @@ thead {
 thead th {
     padding: 15px;
     text-align: left;
-    font-weight: 600;
-    font-size: 0.95em;
+    font-weight: 700;
+    font-size: 1.05em;
 }
 
 tbody tr {
@@ -300,7 +305,8 @@ tbody tr:hover {
 
 tbody td {
     padding: 15px;
-    font-size: 0.9em;
+    font-size: 1em;
+    font-weight: 500;
 }
 
 .empty-state {
