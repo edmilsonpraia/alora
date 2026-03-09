@@ -2,13 +2,14 @@
 // Para configurar: edite FIREBASE_CONFIG abaixo com os dados do seu projeto Firebase
 
 const FIREBASE_CONFIG = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_PROJETO.firebaseapp.com",
-    databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
-    projectId: "SEU_PROJETO",
-    storageBucket: "SEU_PROJETO.appspot.com",
-    messagingSenderId: "000000000000",
-    appId: "SEU_APP_ID"
+    apiKey: "AIzaSyD0LqRbM0TRg50QO4QBt5zNSD8tWkq_7_Q",
+    authDomain: "allora-83266.firebaseapp.com",
+    databaseURL: "https://allora-83266-default-rtdb.firebaseio.com",
+    projectId: "allora-83266",
+    storageBucket: "allora-83266.firebasestorage.app",
+    messagingSenderId: "15370217538",
+    appId: "1:15370217538:web:d4703e978e40aab38ce5db",
+    measurementId: "G-LYR266TND7"
 };
 
 // Estado global
