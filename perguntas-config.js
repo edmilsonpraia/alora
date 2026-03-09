@@ -9,7 +9,7 @@ const PERGUNTAS_CONFIG = [
         titulo: 'Pergunta 1',
         icone: 'fas fa-history',
         iconeCor: 'icon-history',
-        pergunta: 'Na sua opinião que factores do passado influenciaram a forma como hoje pensamos sustentabilidade e desenvolvimento económico?',
+        pergunta: 'Na sua opinião que factores do passado influenciaram a forma como hoje pensamos sobre sustentabilidade e desenvolvimento económico?',
         opcoes: [
             { valor: 'Reconstrucao_crescimento', texto: 'Reconstrução e crescimento económico' },
             { valor: 'Crises_petroleo', texto: 'Crises e volatilidade do petróleo' },
